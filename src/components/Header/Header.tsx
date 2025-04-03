@@ -27,7 +27,7 @@ const Header = () => {
                 <TextButton text="Support" href="#" />
                 <TextButton text="Download" href="#" />
                 <div className="mx-4 h-7 w-[1px] bg-(--text-color)"></div>
-                <TextButton text="Sign up" href="#" />
+                <TextButton text="Sign up" href="/signup" />
                 <Button
                     className="ml-2 px-8 py-3"
                     text="Log in"

@@ -1,4 +1,4 @@
-import ListAlbum from "@/components/ListAlbum/ListAlbum";
+import AlbumTitle from "@/components/AlbumTitle/AlbumTitle";
 
 export default async function Album({
     params,
@@ -6,6 +6,11 @@ export default async function Album({
     params: Promise<{ id: string }>;
 }) {
     const { id } = await params;
-    console.log(id);
-    return <ListAlbum id={id} />;
+
+    return (
+        <>
+            <AlbumTitle />
+            <span>{id}</span>
+        </>
+    );
 }
