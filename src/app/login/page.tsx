@@ -3,7 +3,7 @@ import {
     Apple,
     FacebookColor,
     Google,
-    Spotify,
+    MusicChat,
 } from "@/components/icons/Icons";
 import TextboxLogin from "@/components/Textbox/TextboxLogin";
 import Link from "next/link";
@@ -14,10 +14,10 @@ export default function Login() {
             <div className="flex min-h-screen w-full flex-col items-center justify-start bg-(--main-color) px-8 pb-8 md:h-auto md:min-h-auto md:w-[734px] md:rounded-md md:px-25">
                 <div className="flex flex-col items-center justify-center gap-2 py-8">
                     <Link href="/">
-                        <Spotify className="h-9 w-9 cursor-pointer" />
+                        <MusicChat className="h-9 w-9 cursor-pointer" />
                     </Link>
                     <h1 className="text-center text-3xl font-bold">
-                        Log in to Spotify
+                        Log in to MusicChat
                     </h1>
                 </div>
                 <div className="flex w-full flex-col justify-center md:w-auto">
@@ -68,7 +68,7 @@ export default function Login() {
                         href="/signup"
                         className="underline decoration-2 underline-offset-1 transition-normal duration-200 outline-none focus-within:text-(--green-color) focus-within:decoration-3 focus-within:underline-offset-8 hover:text-(--green-color) md:ml-2"
                     >
-                        Sign up for Spotify
+                        Sign up for MusicChat
                     </Link>
                 </div>
             </div>

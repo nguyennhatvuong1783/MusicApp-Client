@@ -1,5 +1,5 @@
 import React from "react";
-import { Spotify } from "../icons/Icons";
+import { MusicChat } from "../icons/Icons";
 import Textbox from "../Textbox/Textbox";
 import Button from "../Buttons/Button";
 import TextButton from "../Buttons/TextButton";
@@ -11,7 +11,7 @@ const Header = () => {
         <div className="fixed flex w-full items-center p-2">
             <Link href={"/"}>
                 <div className="flex w-18 items-center justify-center">
-                    <Spotify className="h-8 w-8 cursor-pointer text-(--text-color)" />
+                    <MusicChat className="h-10 w-10 cursor-pointer text-(--text-color)" />
                 </div>
             </Link>
             <div className="flex items-center">

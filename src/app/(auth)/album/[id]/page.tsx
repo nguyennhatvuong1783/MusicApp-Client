@@ -1,4 +1,5 @@
 import AlbumTitle from "@/components/AlbumTitle/AlbumTitle";
+import ListSong from "@/components/ListSong/ListSong";
 
 export default async function Album({
     params,
@@ -10,7 +11,8 @@ export default async function Album({
     return (
         <>
             <AlbumTitle />
-            <span>{id}</span>
+            <ListSong />
+            <span className="hidden">{id}</span>
         </>
     );
 }

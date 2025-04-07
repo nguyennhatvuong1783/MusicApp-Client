@@ -5,7 +5,7 @@ import {
     ResizablePanelGroup,
 } from "../ui/resizable";
 import LeftMenu from "../LeftMenu/LeftMenu";
-import Chat from "../Chat/Chat";
+import PlayerBar from "../PlayerBar/PlayerBar";
 
 interface MainContentProps {
     Content: React.ReactNode;
@@ -22,32 +22,21 @@ const MainContent: React.FC<MainContentProps> = ({ Content }) => {
             >
                 {/* Left sidebar */}
                 <ResizablePanel
-                    defaultSize={25}
+                    defaultSize={20}
                     minSize={isMobile ? 0 : 19}
                     maxSize={28}
                 >
                     <LeftMenu />
                 </ResizablePanel>
 
-                <ResizableHandle className="w-2 rounded-lg bg-black transition-colors" />
+                <ResizableHandle className="w-2 bg-(--primary-color)" />
 
                 {/* Main content */}
-                <ResizablePanel defaultSize={isMobile ? 80 : 55}>
+                <ResizablePanel defaultSize={isMobile ? 80 : 60}>
                     {Content}
                 </ResizablePanel>
-
-                <ResizableHandle className="w-2 rounded-lg bg-black transition-colors" />
-
-                {/* Right sidebar */}
-                <ResizablePanel
-                    defaultSize={20}
-                    minSize={0}
-                    maxSize={25}
-                    collapsedSize={0}
-                >
-                    <Chat />
-                </ResizablePanel>
             </ResizablePanelGroup>
+            <PlayerBar />
         </div>
     );
 };

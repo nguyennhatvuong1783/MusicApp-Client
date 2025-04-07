@@ -3,7 +3,7 @@ import {
     Apple,
     FacebookColor,
     Google,
-    Spotify,
+    MusicChat,
 } from "@/components/icons/Icons";
 import TextboxLogin from "@/components/Textbox/TextboxLogin";
 import Link from "next/link";
@@ -13,7 +13,7 @@ export default function Signup() {
         <div className="flex min-h-screen justify-center bg-(--main-color)">
             <div className="flex w-97 flex-col items-center px-8">
                 <div className="mb-10 flex flex-col items-center pt-8">
-                    <Spotify className="h-10 w-10" />
+                    <MusicChat className="h-10 w-10" />
                     <h1 className="pt-6 text-center text-3xl font-bold md:text-5xl/15">
                         Sign up to <br /> start listening
                     </h1>

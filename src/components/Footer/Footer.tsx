@@ -73,7 +73,7 @@ const Footer = () => {
                 </div>
             </div>
             <div className="mb-10 py-10 text-sm text-(--secondary-text-color)">
-                <span>© 2025 Spotify AB</span>
+                <span>© 2025 Music AB</span>
             </div>
         </div>
     );
