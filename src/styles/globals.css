@@ -139,3 +139,49 @@ body {
         @apply bg-background text-foreground;
     }
 }
+
+.slider:hover {
+}
+
+.slider-player::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: var(--progress);
+    height: 100%;
+    background: var(--text-color);
+    border-radius: 0.25rem;
+    pointer-events: none;
+}
+
+.slider-volume::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: var(--progress);
+    height: 100%;
+    background: var(--text-color);
+    border-radius: 0.25rem;
+    pointer-events: none;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    position: relative;
+    opacity: 0;
+    width: 12px;
+    height: 12px;
+    background: var(--text-color);
+    border-radius: 100%;
+    cursor: pointer;
+}
+
+.slider:hover::-webkit-slider-thumb {
+    opacity: 1;
+}
+
+.slider:hover::before {
+    background: var(--green-color);
+}
