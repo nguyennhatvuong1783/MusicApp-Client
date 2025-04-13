@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { MusicChat } from "../icons/Icons";
 import Textbox from "../Textbox/Textbox";
@@ -5,8 +6,11 @@ import Button from "../Buttons/Button";
 import TextButton from "../Buttons/TextButton";
 import ButtonHome from "../Buttons/ButtonHome";
 import Link from "next/link";
+import { useAuth } from "@/hooks/AuthContext ";
 
 const Header = () => {
+    const { isAuthenticated, isLoading, handleLogout } = useAuth();
+
     return (
         <div className="fixed flex w-full items-center p-2">
             <Link href={"/"}>
@@ -27,12 +31,23 @@ const Header = () => {
                 <TextButton text="Support" href="#" />
                 <TextButton text="Download" href="#" />
                 <div className="mx-4 h-7 w-[1px] bg-(--text-color)"></div>
-                <TextButton text="Sign up" href="/signup" />
-                <Button
-                    className="ml-2 px-8 py-3"
-                    text="Log in"
-                    href="/login"
-                />
+                {isAuthenticated && !isLoading && (
+                    <TextButton
+                        text="Log out"
+                        href="/"
+                        onClick={handleLogout}
+                    />
+                )}
+                {!isAuthenticated && !isLoading && (
+                    <>
+                        <TextButton text="Sign up" href="/signup" />
+                        <Button
+                            className="ml-2 px-8 py-3"
+                            text="Log in"
+                            href="/login"
+                        />
+                    </>
+                )}
             </div>
         </div>
     );

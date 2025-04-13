@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import {
     ResizableHandle,
@@ -6,6 +7,7 @@ import {
 } from "../ui/resizable";
 import LeftMenu from "../LeftMenu/LeftMenu";
 import PlayerBar from "../PlayerBar/PlayerBar";
+import { useAuth } from "@/hooks/AuthContext ";
 
 interface MainContentProps {
     Content: React.ReactNode;
@@ -13,6 +15,7 @@ interface MainContentProps {
 
 const MainContent: React.FC<MainContentProps> = ({ Content }) => {
     const isMobile = false;
+    const { isAuthenticated, isLoading } = useAuth();
 
     return (
         <div className="fixed inset-0 mt-14 flex flex-col">
@@ -36,7 +39,7 @@ const MainContent: React.FC<MainContentProps> = ({ Content }) => {
                     {Content}
                 </ResizablePanel>
             </ResizablePanelGroup>
-            <PlayerBar />
+            {isAuthenticated && !isLoading && <PlayerBar />}
         </div>
     );
 };
