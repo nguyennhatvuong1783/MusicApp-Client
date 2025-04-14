@@ -1,11 +1,16 @@
 import ListAlbum from "@/components/ListAlbum/ListAlbum";
+import { use } from "react";
 
-export default async function Section({
-    params,
-}: {
-    params: Promise<{ id: string }>;
-}) {
-    const { id } = await params;
-    console.log(id);
+interface SectionPageParams {
+    id: string;
+}
+
+export default function Section({ params }: { params: SectionPageParams }) {
+    // No error =))
+    const unwrappedParams = use(params);
+    const id = unwrappedParams.id;
+
+    // No error =))
+
     return <ListAlbum id={id} />;
 }

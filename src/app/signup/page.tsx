@@ -7,11 +7,11 @@ import {
     MusicChat,
 } from "@/components/icons/Icons";
 import TextboxLogin from "@/components/Textbox/TextboxLogin";
+import { useAuth } from "@/hooks/useAuth";
 import { signup } from "@/lib/callApi";
 import { SignupFormData } from "@/types/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -102,7 +102,7 @@ const signupSchema = z
 type RawSignupInput = z.infer<typeof signupSchema>;
 
 export default function Signup() {
-    const route = useRouter();
+    const { handleLogin } = useAuth();
 
     const {
         register,
@@ -141,7 +141,7 @@ export default function Signup() {
         const expires = Date.now() + 3600 * 1000; // 1 tiếng
         document.cookie = `token=${user.data.access_token}; path=/; max-age=3600`;
         localStorage.setItem("myCookieExpires", expires.toString());
-        route.push("/");
+        handleLogin();
     };
 
     return (

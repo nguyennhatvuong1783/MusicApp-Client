@@ -13,7 +13,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { LoginFormData } from "@/types/auth";
-import { useAuth } from "@/hooks/AuthContext ";
+import { login } from "@/lib/callApi";
+import { useAuth } from "@/hooks/useAuth";
 
 // Định nghĩa schema
 const loginSchema = z.object({
@@ -29,6 +30,7 @@ export default function Login() {
         register,
         handleSubmit,
         formState: { errors },
+        setError,
     } = useForm<RawLoginInput>({
         resolver: zodResolver(loginSchema),
     });
@@ -43,7 +45,28 @@ export default function Login() {
         };
 
         console.log("Dữ liệu gửi đi:", loginData);
-        handleLogin(loginData);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const user: any = await login(loginData);
+        if (user.error) {
+            const error = user.error;
+            setError("identity", {
+                type: "manual",
+                message: Array.isArray(error as string[])
+                    ? (error as string[]).join(", ")
+                    : (error as string),
+            });
+            setError("password", {
+                type: "manual",
+                message: Array.isArray(error as string[])
+                    ? (error as string[]).join(", ")
+                    : (error as string),
+            });
+            return;
+        }
+        const expires = Date.now() + 3600 * 1000; // 1 tiếng
+        document.cookie = `token=${user.data.access_token}; path=/; max-age=3600`;
+        localStorage.setItem("myCookieExpires", expires.toString());
+        handleLogin();
     };
 
     return (

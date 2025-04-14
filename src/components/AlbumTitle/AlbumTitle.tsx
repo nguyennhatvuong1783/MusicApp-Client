@@ -2,21 +2,63 @@ import Image from "next/image";
 import ButtonPlay from "../Buttons/ButtonPlay";
 import Link from "next/link";
 import { AddIcon, ListIcon, MoreIcon } from "../icons/Icons";
-// import AutoTextSize from "../AutoTextSize/AutoTextSize";
+import { useAuth } from "@/hooks/useAuth";
 
-const AlbumTitle = () => {
+interface AlbumTitleProps {
+    isArtist?: boolean;
+    title?: string;
+    artist?: string;
+    albumImgUrl?: string;
+    artistImgUrl?: string;
+    totalSongs?: number;
+    totalDuration?: number;
+    artistId?: number;
+    songId?: number[];
+}
+
+const AlbumTitle: React.FC<AlbumTitleProps> = ({
+    isArtist = false,
+    title = "Title",
+    artist = "Artist",
+    albumImgUrl = "https://i.scdn.co/image/ab67616d00001e028bdbdf691a5b791a5afb515b",
+    artistImgUrl = "https://i.scdn.co/image/ab6761610000f178b9c9e23c646125922719489e",
+    totalSongs = 0,
+    totalDuration = 0,
+    artistId = "1",
+    songId = [1],
+}) => {
+    const {
+        setAlbumSongsId,
+        setArtistSongsId,
+        setIsPlaying,
+        setCurrentSongId,
+    } = useAuth();
+    const handleClickButtonPlay = () => {
+        if (artist === "Artist") {
+            setAlbumSongsId(null);
+            setCurrentSongId(songId[0]);
+            setArtistSongsId(songId);
+            setIsPlaying(true);
+        } else {
+            setArtistSongsId(null);
+            setCurrentSongId(songId[0]);
+            setAlbumSongsId(songId);
+            setIsPlaying(true);
+        }
+    };
+
     return (
         <div className="flex min-w-full flex-col">
             <div className="relative flex p-6">
                 <Image
-                    src="https://i.scdn.co/image/ab67616d00001e028bdbdf691a5b791a5afb515b"
+                    src={albumImgUrl}
                     alt="Image"
                     fill
                     className="absolute z-0 overflow-hidden object-cover shadow-[0px_0px_40px_rgba(0,0,0,0.4)] blur-3xl brightness-95"
                 />
                 <div className="z-10 mr-6 flex flex-col justify-end">
                     <Image
-                        src="https://i.scdn.co/image/ab67616d00001e028bdbdf691a5b791a5afb515b"
+                        src={albumImgUrl}
                         alt="Image"
                         width={221}
                         height={221}
@@ -24,29 +66,33 @@ const AlbumTitle = () => {
                     />
                 </div>
                 <div className="z-10 flex flex-1 flex-col justify-end gap-2">
-                    <p className="text-sm font-medium">Album</p>
+                    <p className="text-sm font-medium">
+                        {isArtist ? "Artist" : "Album"}
+                    </p>
                     <h1 className="cursor-default text-6xl/tight font-extrabold">
-                        BẬT NÓ LÊN
+                        {title}
                     </h1>
                     {/* <AutoTextSize text="BẬT NÓ LÊN" /> */}
                     <div className="mt-3 flex items-center gap-1 truncate">
                         <Image
-                            src="https://i.scdn.co/image/ab6761610000f178b9c9e23c646125922719489e"
+                            src={artistImgUrl}
                             alt="Image"
                             width={24}
                             height={24}
                             className="aspect-square overflow-hidden rounded-full object-cover"
                         />
-                        <Link
-                            href="#"
-                            className="text-sm font-bold hover:underline"
-                        >
-                            SOOBIN
-                        </Link>
+                        {!isArtist && (
+                            <Link
+                                href={`/artist/${artistId}`}
+                                className="text-sm font-bold hover:underline"
+                            >
+                                {artist}
+                            </Link>
+                        )}
                         <ul className="ml-4 flex list-disc gap-5 text-sm font-medium opacity-80">
-                            <li className="-indent-[6px]">2024</li>
+                            <li className="-indent-[6px]">2025</li>
                             <li className="-indent-[6px]">
-                                10 songs, 33 min 27 sec
+                                {`${totalSongs} songs, ${Math.floor(totalDuration / 60)} min ${totalDuration % 60} sec`}
                             </li>
                         </ul>
                     </div>
@@ -54,7 +100,10 @@ const AlbumTitle = () => {
             </div>
             <div className="flex items-center justify-between p-6">
                 <div className="flex items-center gap-6">
-                    <ButtonPlay className="p-4" />
+                    <ButtonPlay
+                        className="p-4"
+                        onClick={handleClickButtonPlay}
+                    />
                     <div>
                         <AddIcon className="h-8 w-8 cursor-pointer text-(--secondary-text-color) hover:scale-105 hover:text-(--text-color) active:scale-100 active:text-(--secondary-text-color)" />
                     </div>

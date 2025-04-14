@@ -465,6 +465,29 @@ export function MaxVolume(props: SVGProps<SVGSVGElement>) {
     );
 }
 
+export function Mute(props: SVGProps<SVGSVGElement>) {
+    return (
+        <svg
+            data-encore-id="icon"
+            role="presentation"
+            aria-label="Volume off"
+            aria-hidden="false"
+            id="volume-icon"
+            viewBox="0 0 16 16"
+            {...props}
+        >
+            <path
+                fill="currentColor"
+                d="M13.86 5.47a.75.75 0 0 0-1.061 0l-1.47 1.47-1.47-1.47A.75.75 0 0 0 8.8 6.53L10.269 8l-1.47 1.47a.75.75 0 1 0 1.06 1.06l1.47-1.47 1.47 1.47a.75.75 0 0 0 1.06-1.06L12.39 8l1.47-1.47a.75.75 0 0 0 0-1.06z"
+            ></path>
+            <path
+                fill="currentColor"
+                d="M10.116 1.5A.75.75 0 0 0 8.991.85l-6.925 4a3.642 3.642 0 0 0-1.33 4.967 3.639 3.639 0 0 0 1.33 1.332l6.925 4a.75.75 0 0 0 1.125-.649v-1.906a4.73 4.73 0 0 1-1.5-.694v1.3L2.817 9.852a2.141 2.141 0 0 1-.781-2.92c.187-.324.456-.594.78-.782l5.8-3.35v1.3c.45-.313.956-.55 1.5-.694V1.5z"
+            ></path>
+        </svg>
+    );
+}
+
 export function Warning(props: SVGProps<SVGSVGElement>) {
     return (
         <svg
@@ -482,6 +505,17 @@ export function Warning(props: SVGProps<SVGSVGElement>) {
             <path
                 fill="currentColor"
                 d="M7.25 9V4h1.5v5h-1.5zm0 3.026v-1.5h1.5v1.5h-1.5z"
+            ></path>
+        </svg>
+    );
+}
+
+export function Profile(props: SVGProps<SVGSVGElement>) {
+    return (
+        <svg viewBox="0 0 1024 1024" aria-label="Profile" {...props}>
+            <path
+                fill="currentColor"
+                d="M730.06 679.64q-45.377 53.444-101.84 83.443t-120 29.999q-64.032 0-120.75-30.503t-102.6-84.451q-40.335 13.109-77.645 29.747t-53.948 26.722l-17.142 10.084Q106.388 763.84 84.96 802.41t-21.428 73.107 25.461 59.242 60.754 24.705h716.95q35.293 0 60.754-24.705t25.461-59.242-21.428-72.603-51.679-57.225q-6.554-4.033-18.907-10.84t-51.427-24.453-79.409-30.755zm-221.84 25.72q-34.285 0-67.561-14.873t-60.754-40.335-51.175-60.502-40.083-75.124-25.461-84.451-9.075-87.728q0-64.032 19.915-116.22t54.452-85.964 80.67-51.931 99.072-18.151 99.072 18.151 80.67 51.931 54.452 85.964 19.915 116.22q0 65.04-20.167 130.58t-53.948 116.72-81.426 83.443-98.568 32.268z"
             ></path>
         </svg>
     );

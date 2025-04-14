@@ -26,21 +26,29 @@ export async function fetchData<T>(
     }
 
     const res = await fetch(`${API_URL}${endpoint}`, config);
-    let errorData = null; // Khởi tạo biến errorData ở đây
+    let errorData = null;
     if (!res.ok) {
         try {
-            errorData = await res.json(); // Thử parse thành JSON trước
-            if (!errorData.errors) {
-                // Nếu không có thuộc tính errors
+            const responseText = await res.text();
+            try {
+                errorData = JSON.parse(responseText); // Thử parse thành JSON
+                if (!errorData.errors && !errorData.error) {
+                    // Nếu không có thuộc tính errors hay error
+                    throw new Error(
+                        `Failed to fetch: ${res.status} - ${JSON.stringify(errorData)}`,
+                    );
+                }
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            } catch (e) {
+                // Nếu không parse được JSON (response không phải JSON)
                 throw new Error(
-                    `Failed to fetch: ${res.status} - ${JSON.stringify(errorData)}`,
+                    `Failed to fetch: ${res.status} - ${responseText}`,
                 );
             }
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (e) {
-            // Nếu không parse được JSON (response không phải JSON)
-            const errorText = await res.text();
-            throw new Error(`Failed to fetch: ${res.status} - ${errorText}`);
+            throw new Error(
+                `Failed to fetch: ${res.status} - ${e instanceof Error ? e.message : "Unknown error"}`,
+            );
         }
     }
 

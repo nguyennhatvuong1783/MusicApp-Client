@@ -7,7 +7,7 @@ import {
 } from "../ui/resizable";
 import LeftMenu from "../LeftMenu/LeftMenu";
 import PlayerBar from "../PlayerBar/PlayerBar";
-import { useAuth } from "@/hooks/AuthContext ";
+import { useAuth } from "@/hooks/useAuth";
 
 interface MainContentProps {
     Content: React.ReactNode;

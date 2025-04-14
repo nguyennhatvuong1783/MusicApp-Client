@@ -10,6 +10,13 @@ const nextConfig: NextConfig = {
                 pathname: "/**",
                 search: "",
             },
+            {
+                protocol: "https",
+                hostname: "www.shyamh.com",
+                port: "",
+                pathname: "/**",
+                search: "",
+            },
         ],
     },
     typescript: {
