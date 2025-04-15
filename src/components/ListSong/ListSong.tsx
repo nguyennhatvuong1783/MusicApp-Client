@@ -1,12 +1,48 @@
 import React from "react";
 import { Clock } from "../icons/Icons";
 import { Song } from "@/types/auth";
+import { useAuth } from "@/hooks/useAuth";
+import { useRouter } from "next/navigation";
 
 interface ListSongProps {
+    imageUrl?: string;
+    isAlbum?: boolean;
     songs?: Song[];
 }
 
-const ListSong: React.FC<ListSongProps> = ({ songs = null }) => {
+const ListSong: React.FC<ListSongProps> = ({
+    songs = null,
+    isAlbum = false,
+    imageUrl = "https://www.shyamh.com/images/blog/music.jpg",
+}) => {
+    const router = useRouter();
+
+    const {
+        isAuthenticated,
+        setIsPlaying,
+        setCurrentSongId,
+        setAlbumSongsId,
+        setArtistSongsId,
+        setImageUrl,
+    } = useAuth();
+
+    const handleClickDiv = (id: number) => {
+        if (!isAuthenticated) {
+            router.push("/login");
+            return;
+        }
+        setImageUrl(imageUrl);
+        if (isAlbum) {
+            setAlbumSongsId(null);
+            setArtistSongsId(songs?.map((item) => item.id) ?? []);
+        } else {
+            setArtistSongsId(null);
+            setAlbumSongsId(songs?.map((item) => item.id) ?? []);
+        }
+        setCurrentSongId(id);
+        setIsPlaying(true);
+    };
+
     return (
         <div className="mb-30 px-4 md:px-6">
             <div className="mb-4 border-b-1 border-[#293030] font-medium text-(--secondary-text-color)">
@@ -18,7 +54,7 @@ const ListSong: React.FC<ListSongProps> = ({ songs = null }) => {
             </div>
             <ul>
                 {songs?.map((item, index) => (
-                    <li key={item.id}>
+                    <li key={item.id} onClick={() => handleClickDiv(item.id)}>
                         <div
                             className="grid h-14 cursor-pointer grid-cols-22 items-center gap-4 rounded text-sm font-medium text-(--secondary-text-color) focus-within:!bg-[#5a5a5a] hover:bg-[#2a2a2a]"
                             tabIndex={0}

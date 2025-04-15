@@ -38,7 +38,10 @@ export default function Artist({ params }: { params: AlbumPageParams }) {
                             .reduce((a, b) => a + b, 0)}
                         songId={data?.data.songs.map((item) => item.id)}
                     />
-                    <ListSong songs={data?.data.songs} />
+                    <ListSong
+                        songs={data?.data.songs}
+                        imageUrl={data?.data.image_url}
+                    />
                 </>
             )}
         </>

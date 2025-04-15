@@ -38,7 +38,11 @@ export default function Album({ params }: { params: AlbumPageParams }) {
                         artistId={data?.data.artist.id}
                         songId={data?.data.songs.map((item) => item.id)}
                     />
-                    <ListSong songs={data?.data.songs} />
+                    <ListSong
+                        songs={data?.data.songs}
+                        isAlbum={true}
+                        imageUrl={data?.data.image_url}
+                    />
                 </>
             )}
         </>

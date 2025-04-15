@@ -30,14 +30,23 @@ const ItemAlbum: React.FC<ItemAlbumProps> = ({
 }) => {
     const router = useRouter();
     const {
+        isAuthenticated,
         setIsPlaying,
         setCurrentSongId,
         setArtistSongsId,
         setAlbumSongsId,
+        setImageUrl,
     } = useAuth();
 
     const handleClickDiv = () => {
         if (isSong) {
+            if (!isAuthenticated) {
+                router.push("/login");
+                return;
+            }
+            setImageUrl(imgUrl);
+            setAlbumSongsId(null);
+            setArtistSongsId(null);
             setCurrentSongId(song?.id ?? 0);
             setIsPlaying(true);
             return;
@@ -46,7 +55,14 @@ const ItemAlbum: React.FC<ItemAlbumProps> = ({
     };
 
     const handleClickButtonPlay = () => {
+        if (!isAuthenticated) {
+            router.push("/login");
+            return;
+        }
+        setImageUrl(imgUrl);
         if (isSong) {
+            setAlbumSongsId(null);
+            setArtistSongsId(null);
             setCurrentSongId(song?.id ?? 0);
             setIsPlaying(true);
             return;

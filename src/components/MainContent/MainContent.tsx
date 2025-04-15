@@ -21,7 +21,7 @@ const MainContent: React.FC<MainContentProps> = ({ Content }) => {
         <div className="fixed inset-0 mt-14 flex flex-col">
             <ResizablePanelGroup
                 direction="horizontal"
-                className="flex h-full flex-1 overflow-hidden p-2"
+                className="flex flex-1 overflow-hidden p-2"
             >
                 {/* Left sidebar */}
                 <ResizablePanel

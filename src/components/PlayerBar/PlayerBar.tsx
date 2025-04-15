@@ -28,6 +28,7 @@ const PlayerBar = () => {
         setSongs,
         artistSongsId,
         albumSongsId,
+        imageUrl,
     } = useAuth();
     const [valuePlayer, setValuePlayer] = useState<number>(0);
     const [valueVolume, setValueVolume] = useState<number>(1);
@@ -83,6 +84,27 @@ const PlayerBar = () => {
         if (currentSongId && songs) {
             if (valuePlayer > 2 && audioRef.current) {
                 audioRef.current.currentTime = 0;
+                return;
+            }
+            if (artistSongsId) {
+                if (currentSongId === artistSongsId[0]) {
+                    setCurrentSongId(artistSongsId[artistSongsId.length - 1]);
+                    return;
+                }
+                const currentIndex = artistSongsId.indexOf(currentSongId);
+                const nextId = artistSongsId[currentIndex - 1];
+                setCurrentSongId(nextId);
+                return;
+            }
+
+            if (albumSongsId) {
+                if (currentSongId === albumSongsId[0]) {
+                    setCurrentSongId(albumSongsId[albumSongsId.length - 1]);
+                    return;
+                }
+                const currentIndex = albumSongsId.indexOf(currentSongId);
+                const nextId = albumSongsId[currentIndex - 1];
+                setCurrentSongId(nextId);
                 return;
             }
             if (currentSongId <= songs[0].id) {
@@ -226,7 +248,7 @@ const PlayerBar = () => {
                 {songs && currentSongId && (
                     <>
                         <Image
-                            src="https://www.shyamh.com/images/blog/music.jpg"
+                            src={imageUrl}
                             alt="Image"
                             width={56}
                             height={56}

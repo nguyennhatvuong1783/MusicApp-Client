@@ -1,7 +1,11 @@
+"use client";
 import React from "react";
 import { Facebook, Instagram, Twitter } from "../icons/Icons";
+import { useAuth } from "@/hooks/useAuth";
 
 const Footer = () => {
+    const { isAuthenticated } = useAuth();
+
     return (
         <div className="block px-5">
             <div className="flex justify-between border-b-2 border-(--secondary-color) py-10">
@@ -72,7 +76,9 @@ const Footer = () => {
                     </div>
                 </div>
             </div>
-            <div className="mb-10 py-10 text-sm text-(--secondary-text-color)">
+            <div
+                className={`py-10 text-sm text-(--secondary-text-color) ${!isAuthenticated ? "mb-10" : "mb-20"}`}
+            >
                 <span>© 2025 Music AB</span>
             </div>
         </div>

@@ -3,10 +3,13 @@ import { ScrollArea } from "../ui/scroll-area";
 import { Library } from "../icons/Icons";
 import YourLibrary from "../YourLibrary/YourLibrary";
 import SubFooter from "../Footer/SubFooter";
+import { useAuth } from "@/hooks/useAuth";
 
 const LeftMenu = () => {
+    const { isAuthenticated } = useAuth();
+
     return (
-        <div className="flex h-full flex-col gap-2">
+        <div className="flex h-full flex-col gap-2 overflow-hidden rounded-md">
             {/* Library sections */}
             <div className="flex-1 rounded-md bg-(--main-color)">
                 <div className="mb-2 flex items-center justify-between">
@@ -15,7 +18,9 @@ const LeftMenu = () => {
                         <span className="hidden md:inline">Your Library</span>
                     </div>
                 </div>
-                <ScrollArea className="h-[calc(100vh-350px)] px-2 pb-2">
+                <ScrollArea
+                    className={`px-2 pb-2 ${!isAuthenticated ? "h-[calc(100vh-350px)]" : "h-[calc(100vh-410px)]"}`}
+                >
                     <YourLibrary />
                 </ScrollArea>
                 <SubFooter />

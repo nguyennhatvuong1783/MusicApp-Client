@@ -22,6 +22,8 @@ interface AuthContextType {
     setAlbumSongsId: React.Dispatch<React.SetStateAction<number[] | null>>;
     // playlistSongsId: number[] | null;
     // setPlaylistSongsId: React.Dispatch<React.SetStateAction<number[] | null>>;
+    imageUrl: string;
+    setImageUrl: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(
@@ -40,6 +42,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     const [artistSongsId, setArtistSongsId] = useState<number[] | null>(null);
     const [albumSongsId, setAlbumSongsId] = useState<number[] | null>(null);
     // const [playlistSongsId, setPlaylistSongsId] = useState<number[] | null>(null);
+    const [imageUrl, setImageUrl] = useState<string>(
+        "https://www.shyamh.com/images/blog/music.jpg",
+    );
 
     const handleLogin = () => {
         setIsAuthenticated(true);
@@ -121,6 +126,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
                 setArtistSongsId,
                 albumSongsId,
                 setAlbumSongsId,
+                // playlistSongsId,
+                // setPlaylistSongsId,
+                imageUrl,
+                setImageUrl,
             }}
         >
             {children}

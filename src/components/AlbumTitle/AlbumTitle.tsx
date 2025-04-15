@@ -3,6 +3,7 @@ import ButtonPlay from "../Buttons/ButtonPlay";
 import Link from "next/link";
 import { AddIcon, ListIcon, MoreIcon } from "../icons/Icons";
 import { useAuth } from "@/hooks/useAuth";
+import { useRouter } from "next/navigation";
 
 interface AlbumTitleProps {
     isArtist?: boolean;
@@ -27,13 +28,23 @@ const AlbumTitle: React.FC<AlbumTitleProps> = ({
     artistId = "1",
     songId = [1],
 }) => {
+    const router = useRouter();
+
     const {
+        isAuthenticated,
         setAlbumSongsId,
         setArtistSongsId,
         setIsPlaying,
         setCurrentSongId,
+        setImageUrl,
     } = useAuth();
+
     const handleClickButtonPlay = () => {
+        if (!isAuthenticated) {
+            router.push("/login");
+            return;
+        }
+        setImageUrl(albumImgUrl);
         if (artist === "Artist") {
             setAlbumSongsId(null);
             setCurrentSongId(songId[0]);
