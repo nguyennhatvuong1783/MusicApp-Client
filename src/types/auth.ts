@@ -1,3 +1,18 @@
+export interface User {
+    id: number;
+    username: string;
+    email: string;
+    phone: string;
+    image_url: string;
+    account_type: string;
+}
+
+export interface ChangePasswordFormData {
+    current_password: string;
+    new_password: string;
+    new_password_confirmation: string;
+}
+
 export interface LoginFormData {
     username?: string;
     email?: string;

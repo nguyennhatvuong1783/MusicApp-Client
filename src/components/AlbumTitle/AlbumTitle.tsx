@@ -31,7 +31,7 @@ const AlbumTitle: React.FC<AlbumTitleProps> = ({
     const router = useRouter();
 
     const {
-        isAuthenticated,
+        user,
         setAlbumSongsId,
         setArtistSongsId,
         setIsPlaying,
@@ -40,7 +40,7 @@ const AlbumTitle: React.FC<AlbumTitleProps> = ({
     } = useAuth();
 
     const handleClickButtonPlay = () => {
-        if (!isAuthenticated) {
+        if (!user) {
             router.push("/login");
             return;
         }

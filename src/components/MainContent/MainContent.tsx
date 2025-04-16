@@ -15,7 +15,7 @@ interface MainContentProps {
 
 const MainContent: React.FC<MainContentProps> = ({ Content }) => {
     const isMobile = false;
-    const { isAuthenticated, isLoading } = useAuth();
+    const { user, isLoading } = useAuth();
 
     return (
         <div className="fixed inset-0 mt-14 flex flex-col">
@@ -39,7 +39,7 @@ const MainContent: React.FC<MainContentProps> = ({ Content }) => {
                     {Content}
                 </ResizablePanel>
             </ResizablePanelGroup>
-            {isAuthenticated && !isLoading && <PlayerBar />}
+            {user && !isLoading && <PlayerBar />}
         </div>
     );
 };

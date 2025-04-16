@@ -6,7 +6,7 @@ import SubFooter from "../Footer/SubFooter";
 import { useAuth } from "@/hooks/useAuth";
 
 const LeftMenu = () => {
-    const { isAuthenticated } = useAuth();
+    const { user } = useAuth();
 
     return (
         <div className="flex h-full flex-col gap-2 overflow-hidden rounded-md">
@@ -19,7 +19,7 @@ const LeftMenu = () => {
                     </div>
                 </div>
                 <ScrollArea
-                    className={`px-2 pb-2 ${!isAuthenticated ? "h-[calc(100vh-350px)]" : "h-[calc(100vh-410px)]"}`}
+                    className={`px-2 pb-2 ${!user ? "h-[calc(100vh-350px)]" : "h-[calc(100vh-410px)]"}`}
                 >
                     <YourLibrary />
                 </ScrollArea>

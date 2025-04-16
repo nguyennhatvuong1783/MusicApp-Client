@@ -44,7 +44,6 @@ export default function Login() {
             password: data.password,
         };
 
-        console.log("Dữ liệu gửi đi:", loginData);
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const user: any = await login(loginData);
         if (user.error) {
@@ -66,7 +65,7 @@ export default function Login() {
         const expires = Date.now() + 3600 * 1000; // 1 tiếng
         document.cookie = `token=${user.data.access_token}; path=/; max-age=3600`;
         localStorage.setItem("myCookieExpires", expires.toString());
-        handleLogin();
+        handleLogin(user.data.user);
     };
 
     return (

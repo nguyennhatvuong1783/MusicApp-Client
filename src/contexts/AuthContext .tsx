@@ -1,15 +1,18 @@
 "use client";
+import { fetcher } from "@/lib/api";
 import { logout, refreshToken } from "@/lib/callApi";
 import { deleteCookie, getCookie, getCookieExpires } from "@/lib/cookie";
-import { Song } from "@/types/auth";
+import { ApiResponse, Song, User } from "@/types/auth";
 import { useRouter } from "next/navigation";
 import { createContext, useEffect, useState } from "react";
+import useSWR from "swr";
 
 interface AuthContextType {
-    isAuthenticated: boolean;
+    user: User | null;
+    setUser: React.Dispatch<React.SetStateAction<User | null>>;
     isLoading: boolean;
     handleLogout: () => Promise<void>;
-    handleLogin: () => void;
+    handleLogin: (user: User) => void;
     songs: Song[] | null;
     setSongs: React.Dispatch<React.SetStateAction<Song[] | null>>;
     currentSongId: number | null;
@@ -34,7 +37,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     children,
 }) => {
     const route = useRouter();
-    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+    const [user, setUser] = useState<User | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [songs, setSongs] = useState<Song[] | null>(null);
     const [currentSongId, setCurrentSongId] = useState<number | null>(null);
@@ -46,8 +49,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         "https://www.shyamh.com/images/blog/music.jpg",
     );
 
-    const handleLogin = () => {
-        setIsAuthenticated(true);
+    const {
+        data,
+        error,
+        isLoading: isSwrLoading,
+    } = useSWR<ApiResponse<User>>(`auth/me`, fetcher);
+
+    const handleLogin = (user: User) => {
+        setUser(user);
         setIsLoading(false);
         route.push("/");
     };
@@ -63,7 +72,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         // Xóa cookie token
         deleteCookie("token");
         localStorage.removeItem("myCookieExpires");
-        setIsAuthenticated(false);
+        setUser(null);
         setIsLoading(false);
         route.push("/");
     };
@@ -74,20 +83,21 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         if (token) {
             // Kiểm tra thời gian hết hạn của cookie
             const expires = getCookieExpires("token");
-            console.log("expires", expires);
+            // Nếu cookie đã hết hạn, xóa cookie và localStorage
             if (expires && expires < 0) {
                 deleteCookie("token");
                 localStorage.removeItem("myCookieExpires");
-                setIsAuthenticated(false);
+                setUser(null);
                 setIsLoading(false);
                 return;
             }
             // Nếu cookie còn hiệu lực nhưng thời gian còn lại dưới 5 phút, refresh token
             if (expires && expires < 300000) {
+                console.log("Token is about to expire, refreshing...");
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 const user: any = await refreshToken();
                 if (user.errors) {
-                    console.error("Logout failed:", user.errors);
+                    console.error("Refresh token failed:", user.errors);
                     return;
                 }
                 // Xóa cookie token
@@ -97,22 +107,31 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
                 const expires = Date.now() + 3600 * 1000; // 1 tiếng
                 document.cookie = `token=${user.data.access_token}; path=/; max-age=3600`;
                 localStorage.setItem("myCookieExpires", expires.toString());
+                setUser(user.data.user);
+                return;
             }
-            setIsAuthenticated(true);
+            // Nếu cookie còn hiệu lực, lấy thông tin người dùng
+            if (error) {
+                console.error("Error fetching user data:", error);
+            }
+            setUser(data?.data as User);
         } else {
-            setIsAuthenticated(false);
+            setUser(null);
         }
-        setIsLoading(false);
+        if (!isSwrLoading) {
+            setIsLoading(false);
+        }
     };
 
     useEffect(() => {
         checkAuth();
-    }, []);
+    });
 
     return (
         <AuthContext.Provider
             value={{
-                isAuthenticated,
+                user,
+                setUser,
                 isLoading,
                 handleLogout,
                 handleLogin,

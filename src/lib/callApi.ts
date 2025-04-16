@@ -1,4 +1,9 @@
-import { LoginFormData, SignupFormData } from "@/types/auth";
+import {
+    ChangePasswordFormData,
+    LoginFormData,
+    SignupFormData,
+    User,
+} from "@/types/auth";
 import { fetchData } from "./api";
 
 export const login = async (data: LoginFormData) => {
@@ -15,4 +20,12 @@ export const logout = async () => {
 
 export const refreshToken = async () => {
     return await fetchData("auth/refresh", null, "POST");
+};
+
+export const editProfile = async (data: User) => {
+    return await fetchData("users/profile", data, "PATCH");
+};
+
+export const changePassword = async (data: ChangePasswordFormData) => {
+    return await fetchData("users/change-password", data, "POST");
 };

@@ -8,6 +8,8 @@ interface TextboxLoginProps {
     isPassword?: boolean;
     register?: UseFormRegisterReturn;
     error?: string;
+    isDisabled?: boolean;
+    value?: string;
 }
 
 const TextboxLogin: React.FC<TextboxLoginProps> = ({
@@ -16,6 +18,8 @@ const TextboxLogin: React.FC<TextboxLoginProps> = ({
     isPassword = false,
     register,
     error,
+    isDisabled = false,
+    value = "",
 }) => {
     return (
         <div className="flex flex-col items-start justify-center gap-2">
@@ -24,7 +28,9 @@ const TextboxLogin: React.FC<TextboxLoginProps> = ({
                 type={isPassword ? "password" : "text"}
                 placeholder={placeholder}
                 {...register}
-                className={`self-stretch rounded-[3px] p-3 inset-ring-1 transition-all duration-200 outline-none focus-within:!inset-ring-3 ${error ? "inset-ring-red-500 focus-within:!inset-ring-red-500 hover:inset-ring-red-500" : "inset-ring-(--secondary-text-color) focus-within:!inset-ring-(--text-color) hover:inset-ring-(--text-color)"}`}
+                className={`self-stretch rounded-[3px] p-3 inset-ring-1 transition-all duration-200 outline-none focus-within:!inset-ring-3 ${error ? "inset-ring-red-500 focus-within:!inset-ring-red-500 hover:inset-ring-red-500" : "inset-ring-(--secondary-text-color) focus-within:!inset-ring-(--text-color) hover:inset-ring-(--text-color)"} ${isDisabled && "cursor-not-allowed"}`}
+                disabled={isDisabled}
+                {...(isDisabled ? { value: value } : {})}
             />
             {error && (
                 <span className="flex items-start text-sm font-medium text-red-300">

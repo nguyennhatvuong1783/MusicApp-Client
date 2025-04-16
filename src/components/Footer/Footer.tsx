@@ -4,7 +4,7 @@ import { Facebook, Instagram, Twitter } from "../icons/Icons";
 import { useAuth } from "@/hooks/useAuth";
 
 const Footer = () => {
-    const { isAuthenticated } = useAuth();
+    const { user } = useAuth();
 
     return (
         <div className="block px-5">
@@ -77,7 +77,7 @@ const Footer = () => {
                 </div>
             </div>
             <div
-                className={`py-10 text-sm text-(--secondary-text-color) ${!isAuthenticated ? "mb-10" : "mb-20"}`}
+                className={`py-10 text-sm text-(--secondary-text-color) ${!user ? "mb-10" : "mb-20"}`}
             >
                 <span>© 2025 Music AB</span>
             </div>

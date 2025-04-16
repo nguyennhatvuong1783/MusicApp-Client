@@ -122,7 +122,6 @@ export default function Signup() {
             password_confirmation: data.password_confirmation,
         };
 
-        console.log("Dữ liệu gửi đi:", signupData);
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const user: any = await signup(signupData);
         if (user.errors) {
@@ -141,7 +140,7 @@ export default function Signup() {
         const expires = Date.now() + 3600 * 1000; // 1 tiếng
         document.cookie = `token=${user.data.access_token}; path=/; max-age=3600`;
         localStorage.setItem("myCookieExpires", expires.toString());
-        handleLogin();
+        handleLogin(user.data.user);
     };
 
     return (

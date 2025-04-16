@@ -30,7 +30,7 @@ const ItemAlbum: React.FC<ItemAlbumProps> = ({
 }) => {
     const router = useRouter();
     const {
-        isAuthenticated,
+        user,
         setIsPlaying,
         setCurrentSongId,
         setArtistSongsId,
@@ -40,7 +40,7 @@ const ItemAlbum: React.FC<ItemAlbumProps> = ({
 
     const handleClickDiv = () => {
         if (isSong) {
-            if (!isAuthenticated) {
+            if (!user) {
                 router.push("/login");
                 return;
             }
@@ -55,7 +55,7 @@ const ItemAlbum: React.FC<ItemAlbumProps> = ({
     };
 
     const handleClickButtonPlay = () => {
-        if (!isAuthenticated) {
+        if (!user) {
             router.push("/login");
             return;
         }

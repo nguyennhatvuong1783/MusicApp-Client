@@ -32,7 +32,11 @@ export async function fetchData<T>(
             const responseText = await res.text();
             try {
                 errorData = JSON.parse(responseText); // Thử parse thành JSON
-                if (!errorData.errors && !errorData.error) {
+                if (
+                    !errorData.errors &&
+                    !errorData.error &&
+                    errorData.success
+                ) {
                     // Nếu không có thuộc tính errors hay error
                     throw new Error(
                         `Failed to fetch: ${res.status} - ${JSON.stringify(errorData)}`,
@@ -55,5 +59,20 @@ export async function fetchData<T>(
     return errorData ?? res.json(); // Trả về dữ liệu nếu không có lỗi
 }
 
-export const fetcher = <T>(path: string): Promise<T> =>
-    fetch(`${API_URL}${path}`).then((res) => res.json() as Promise<T>);
+export const fetcher = <T>(path: string): Promise<T> => {
+    const token = getCookie("token");
+
+    // Tạo headers object
+    const headers: HeadersInit = {
+        "Content-Type": "application/json",
+    };
+
+    // Thêm Authorization header nếu có token
+    if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+    }
+
+    return fetch(`${API_URL}${path}`, {
+        headers,
+    }).then((res) => res.json() as Promise<T>);
+};

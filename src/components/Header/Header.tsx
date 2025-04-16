@@ -11,7 +11,7 @@ import { useAuth } from "@/hooks/useAuth";
 
 const Header = () => {
     const router = useRouter();
-    const { isAuthenticated, isLoading, handleLogout } = useAuth();
+    const { user, isLoading, handleLogout } = useAuth();
 
     const [searchTerm, setSearchTerm] = useState("");
     const timeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -47,7 +47,7 @@ const Header = () => {
     }, []);
 
     return (
-        <div className="fixed flex w-full items-center p-2">
+        <div className="fixed flex w-full items-center bg-(--primary-color) p-2">
             <Link href={"/"}>
                 <div className="flex w-18 items-center justify-center">
                     <MusicChat className="h-10 w-10 cursor-pointer text-(--text-color)" />
@@ -66,17 +66,19 @@ const Header = () => {
                 <TextButton text="Support" href="#" />
                 <TextButton text="Download" href="#" />
                 <div className="mx-4 h-7 w-[1px] bg-(--text-color)"></div>
-                {isAuthenticated && !isLoading && (
+                {user && !isLoading && (
                     <>
                         <TextButton
                             text="Log out"
                             href="/"
                             onClick={handleLogout}
                         />
-                        <Profile className="ml-2 h-9 w-9 cursor-pointer rounded-full p-[7px] ring-1 hover:text-(--green-color)" />
+                        <Link href="/profile">
+                            <Profile className="ml-2 h-9 w-9 cursor-pointer rounded-full p-[7px] ring-1 hover:text-(--green-color)" />
+                        </Link>
                     </>
                 )}
-                {!isAuthenticated && !isLoading && (
+                {!user && !isLoading && (
                     <>
                         <TextButton text="Sign up" href="/signup" />
                         <Button

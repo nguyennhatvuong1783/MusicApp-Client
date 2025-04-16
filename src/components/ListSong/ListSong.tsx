@@ -18,7 +18,7 @@ const ListSong: React.FC<ListSongProps> = ({
     const router = useRouter();
 
     const {
-        isAuthenticated,
+        user,
         setIsPlaying,
         setCurrentSongId,
         setAlbumSongsId,
@@ -27,7 +27,7 @@ const ListSong: React.FC<ListSongProps> = ({
     } = useAuth();
 
     const handleClickDiv = (id: number) => {
-        if (!isAuthenticated) {
+        if (!user) {
             router.push("/login");
             return;
         }
