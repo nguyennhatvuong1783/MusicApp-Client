@@ -1,20 +1,20 @@
 "use client";
-
-import BtnTxtImg from "@/components/Buttons/BtnTxtImg";
+import BtnTxtImg from "@/components/Buttons/TextIconButton";
 import {
     Apple,
     FacebookColor,
     Google,
     MusicChat,
 } from "@/components/icons/Icons";
-import TextboxLogin from "@/components/Textbox/TextboxLogin";
+import TextboxLogin from "@/components/TextInput/TextInput";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { LoginFormData } from "@/types/auth";
 import { login } from "@/lib/callApi";
 import { useAuth } from "@/hooks/useAuth";
+import { AuthUser, LoginUserDto } from "@/types/user";
+import { ApiResponse } from "@/types/api";
 
 // Định nghĩa schema
 const loginSchema = z.object({
@@ -37,35 +37,60 @@ export default function Login() {
 
     const onSubmit = async (data: RawLoginInput) => {
         const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.identity);
-        const loginData: LoginFormData = {
+        const loginData: LoginUserDto = {
             ...(isEmail
                 ? { email: data.identity }
                 : { username: data.identity }),
             password: data.password,
         };
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const user: any = await login(loginData);
-        if (user.error) {
-            const error = user.error;
-            setError("identity", {
-                type: "manual",
-                message: Array.isArray(error as string[])
-                    ? (error as string[]).join(", ")
-                    : (error as string),
+        const loginResponseData: ApiResponse<AuthUser> = await login(loginData);
+
+        if (loginResponseData.errors) {
+            const errors = loginResponseData.errors;
+
+            Object.entries(errors).forEach(([field, message]) => {
+                setError(field as keyof RawLoginInput, {
+                    type: "manual",
+                    message,
+                });
             });
-            setError("password", {
-                type: "manual",
-                message: Array.isArray(error as string[])
-                    ? (error as string[]).join(", ")
-                    : (error as string),
-            });
+
+            if (errors?.invalid_credentials) {
+                console.log(errors?.invalid_credentials);
+                setError("identity", {
+                    type: "manual",
+                    message: errors.invalid_credentials,
+                });
+                setError("password", {
+                    type: "manual",
+                    message: errors.invalid_credentials,
+                });
+            }
+
             return;
         }
-        const expires = Date.now() + 3600 * 1000; // 1 tiếng
-        document.cookie = `token=${user.data.access_token}; path=/; max-age=3600`;
-        localStorage.setItem("myCookieExpires", expires.toString());
-        handleLogin(user.data.user);
+
+        const { access_token, expires_at, user } = loginResponseData.data ?? {};
+
+        if (!access_token || !expires_at || !user) {
+            console.error("Dữ liệu đăng nhập thiếu thông tin cần thiết.");
+            console.error("Đăng nhập thất bại. Vui lòng thử lại.");
+            return;
+        }
+
+        try {
+            const expiresTime = new Date(expires_at).getTime();
+            const maxAge = Math.floor((expiresTime - Date.now()) / 1000);
+
+            document.cookie = `token=${access_token}; path=/; max-age=${maxAge}`;
+            localStorage.setItem("myCookieExpires", expiresTime.toString());
+
+            handleLogin(user);
+        } catch (err) {
+            console.error("Lỗi khi xử lý lưu token:", err);
+            console.error("Đăng nhập thất bại.");
+        }
     };
 
     return (

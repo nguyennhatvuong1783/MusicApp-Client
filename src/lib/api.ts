@@ -25,38 +25,13 @@ export async function fetchData<T>(
         config.body = JSON.stringify(data);
     }
 
-    const res = await fetch(`${API_URL}${endpoint}`, config);
-    let errorData = null;
-    if (!res.ok) {
-        try {
-            const responseText = await res.text();
-            try {
-                errorData = JSON.parse(responseText); // Thử parse thành JSON
-                if (
-                    !errorData.errors &&
-                    !errorData.error &&
-                    errorData.success
-                ) {
-                    // Nếu không có thuộc tính errors hay error
-                    throw new Error(
-                        `Failed to fetch: ${res.status} - ${JSON.stringify(errorData)}`,
-                    );
-                }
-                // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            } catch (e) {
-                // Nếu không parse được JSON (response không phải JSON)
-                throw new Error(
-                    `Failed to fetch: ${res.status} - ${responseText}`,
-                );
-            }
-        } catch (e) {
-            throw new Error(
-                `Failed to fetch: ${res.status} - ${e instanceof Error ? e.message : "Unknown error"}`,
-            );
-        }
+    try {
+        const res = await fetch(`${API_URL}${endpoint}`, config);
+        return res.json();
+    } catch (error) {
+        console.error("Error fetching data:", error);
+        throw error;
     }
-
-    return errorData ?? res.json(); // Trả về dữ liệu nếu không có lỗi
 }
 
 export const fetcher = <T>(path: string): Promise<T> => {

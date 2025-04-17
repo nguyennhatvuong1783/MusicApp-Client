@@ -1,4 +1,3 @@
-"use client";
 import React from "react";
 import {
     ResizableHandle,
@@ -6,8 +5,8 @@ import {
     ResizablePanelGroup,
 } from "../ui/resizable";
 import LeftMenu from "../LeftMenu/LeftMenu";
-import PlayerBar from "../PlayerBar/PlayerBar";
-import { useAuth } from "@/hooks/useAuth";
+import { ScrollArea } from "../ui/scroll-area";
+import Footer from "../Footer/Footer";
 
 interface MainContentProps {
     Content: React.ReactNode;
@@ -15,32 +14,33 @@ interface MainContentProps {
 
 const MainContent: React.FC<MainContentProps> = ({ Content }) => {
     const isMobile = false;
-    const { user, isLoading } = useAuth();
 
     return (
-        <div className="fixed inset-0 mt-14 flex flex-col">
-            <ResizablePanelGroup
-                direction="horizontal"
-                className="flex flex-1 overflow-hidden p-2"
+        <ResizablePanelGroup
+            direction="horizontal"
+            className="flex h-fit w-full flex-1 overflow-hidden"
+        >
+            {/* Left sidebar */}
+            <ResizablePanel
+                defaultSize={20}
+                minSize={isMobile ? 0 : 19}
+                maxSize={28}
             >
-                {/* Left sidebar */}
-                <ResizablePanel
-                    defaultSize={20}
-                    minSize={isMobile ? 0 : 19}
-                    maxSize={28}
-                >
-                    <LeftMenu />
-                </ResizablePanel>
+                <LeftMenu />
+            </ResizablePanel>
 
-                <ResizableHandle className="w-2 bg-(--primary-color)" />
+            <ResizableHandle className="w-2 bg-(--primary-color)" />
 
-                {/* Main content */}
-                <ResizablePanel defaultSize={isMobile ? 80 : 60}>
-                    {Content}
-                </ResizablePanel>
-            </ResizablePanelGroup>
-            {user && !isLoading && <PlayerBar />}
-        </div>
+            {/* Main content */}
+            <ResizablePanel defaultSize={isMobile ? 80 : 60}>
+                <div className="h-full overflow-hidden rounded-md bg-(image:--gradient-color)">
+                    <ScrollArea className="h-[calc(100vh-70px)]">
+                        {Content}
+                        <Footer />
+                    </ScrollArea>
+                </div>
+            </ResizablePanel>
+        </ResizablePanelGroup>
     );
 };
 

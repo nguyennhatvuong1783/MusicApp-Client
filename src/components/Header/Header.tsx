@@ -1,17 +1,17 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import { MusicChat, Profile } from "../icons/Icons";
-import Textbox from "../Textbox/Textbox";
+import SearchInput from "../TextInput/SearchInput";
 import Button from "../Buttons/Button";
 import TextButton from "../Buttons/TextButton";
-import ButtonHome from "../Buttons/ButtonHome";
+import ButtonHome from "../Buttons/HomeButton";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
 
 const Header = () => {
     const router = useRouter();
-    const { user, isLoading, handleLogout } = useAuth();
+    const { isLoading, user, handleLogout } = useAuth();
 
     const [searchTerm, setSearchTerm] = useState("");
     const timeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -47,26 +47,24 @@ const Header = () => {
     }, []);
 
     return (
-        <div className="fixed flex w-full items-center bg-(--primary-color) p-2">
+        <div className="flex w-full items-center">
             <Link href={"/"}>
                 <div className="flex w-18 items-center justify-center">
                     <MusicChat className="h-10 w-10 cursor-pointer text-(--text-color)" />
                 </div>
             </Link>
-            <div className="flex items-center">
+            <div className="flex flex-1 items-center">
                 <div className="ml-2">
                     <ButtonHome />
                 </div>
-                <div className="px-2">
-                    <Textbox onChange={handleInputChange} value={searchTerm} />
-                </div>
+                <SearchInput onChange={handleInputChange} value={searchTerm} />
             </div>
             <div className="flex flex-1 items-center justify-center gap-2 font-bold">
                 <TextButton text="Premium" href="#" />
                 <TextButton text="Support" href="#" />
                 <TextButton text="Download" href="#" />
                 <div className="mx-4 h-7 w-[1px] bg-(--text-color)"></div>
-                {user && !isLoading && (
+                {user && (
                     <>
                         <TextButton
                             text="Log out"

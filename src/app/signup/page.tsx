@@ -1,15 +1,16 @@
 "use client";
-import BtnTxtImg from "@/components/Buttons/BtnTxtImg";
+import BtnTxtImg from "@/components/Buttons/TextIconButton";
 import {
     Apple,
     FacebookColor,
     Google,
     MusicChat,
 } from "@/components/icons/Icons";
-import TextboxLogin from "@/components/Textbox/TextboxLogin";
+import TextboxLogin from "@/components/TextInput/TextInput";
 import { useAuth } from "@/hooks/useAuth";
 import { signup } from "@/lib/callApi";
-import { SignupFormData } from "@/types/auth";
+import { ApiResponse } from "@/types/api";
+import { AuthUser, RegisterUserDto } from "@/types/user";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
@@ -36,68 +37,65 @@ const signupSchema = z
             .string()
             .min(1, "Please enter your confirm password."),
     })
-    .superRefine(
-        (
-            { password_confirmation: confirmPassword, password, username },
-            ctx,
-        ) => {
-            // Password complexity checks
-            const hasUppercase = /[A-Z]/.test(password);
-            const hasLowercase = /[a-z]/.test(password);
-            const hasNumber = /[0-9]/.test(password);
-            const hasSpecialChar =
-                /[`!@#$%^&*()_\-+=\[\]{};':"\\|,.<>\/?~ ]/.test(password);
-            const noSpecialChar =
-                /[`!@#$%^&*()_\-+=\[\]{};':"\\|,.<>\/?~ ]/.test(username);
-            if (noSpecialChar) {
-                ctx.addIssue({
-                    code: "custom",
-                    message: "Username must not contain special characters.",
-                    path: ["username"],
-                });
-            }
-            // Individual checks with separate error messages
-            if (!hasUppercase) {
-                ctx.addIssue({
-                    code: "custom",
-                    message:
-                        "Password must contain at least one uppercase letter (A-Z).",
-                    path: ["password"],
-                });
-            }
-            if (!hasLowercase) {
-                ctx.addIssue({
-                    code: "custom",
-                    message:
-                        "Password must contain at least one lowercase letter (a-z).",
-                    path: ["password"],
-                });
-            }
-            if (!hasNumber) {
-                ctx.addIssue({
-                    code: "custom",
-                    message: "Password must contain at least one number (0-9).",
-                    path: ["password"],
-                });
-            }
-            if (!hasSpecialChar) {
-                ctx.addIssue({
-                    code: "custom",
-                    message:
-                        "Password must contain at least one special character.",
-                    path: ["password"],
-                });
-            }
-            // Check password match
-            if (confirmPassword !== password) {
-                ctx.addIssue({
-                    code: "custom",
-                    message: "Passwords do not match.",
-                    path: ["confirmPassword"],
-                });
-            }
-        },
-    );
+    .superRefine(({ password_confirmation, password, username }, ctx) => {
+        // Password complexity checks
+        const hasUppercase = /[A-Z]/.test(password);
+        const hasLowercase = /[a-z]/.test(password);
+        const hasNumber = /[0-9]/.test(password);
+        const hasSpecialChar = /[`!@#$%^&*()_\-+=\[\]{};':"\\|,.<>\/?~ ]/.test(
+            password,
+        );
+        const noSpecialChar = /[`!@#$%^&*()_\-+=\[\]{};':"\\|,.<>\/?~ ]/.test(
+            username,
+        );
+        if (noSpecialChar) {
+            ctx.addIssue({
+                code: "custom",
+                message: "Username must not contain special characters.",
+                path: ["username"],
+            });
+        }
+        // Individual checks with separate error messages
+        if (!hasUppercase) {
+            ctx.addIssue({
+                code: "custom",
+                message:
+                    "Password must contain at least one uppercase letter (A-Z).",
+                path: ["password"],
+            });
+        }
+        if (!hasLowercase) {
+            ctx.addIssue({
+                code: "custom",
+                message:
+                    "Password must contain at least one lowercase letter (a-z).",
+                path: ["password"],
+            });
+        }
+        if (!hasNumber) {
+            ctx.addIssue({
+                code: "custom",
+                message: "Password must contain at least one number (0-9).",
+                path: ["password"],
+            });
+        }
+        if (!hasSpecialChar) {
+            ctx.addIssue({
+                code: "custom",
+                message:
+                    "Password must contain at least one special character.",
+                path: ["password"],
+            });
+        }
+        // Check password match
+        if (password_confirmation !== password) {
+            ctx.addIssue({
+                code: "custom",
+                message: "Passwords do not match.",
+                path: ["password_confirmation"],
+            });
+        }
+    });
 
 type RawSignupInput = z.infer<typeof signupSchema>;
 
@@ -114,7 +112,7 @@ export default function Signup() {
     });
 
     const onSubmit = async (data: RawSignupInput) => {
-        const signupData: SignupFormData = {
+        const signupData: RegisterUserDto = {
             username: data.username,
             email: data.email,
             phone: data.phone,
@@ -122,25 +120,43 @@ export default function Signup() {
             password_confirmation: data.password_confirmation,
         };
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const user: any = await signup(signupData);
-        if (user.errors) {
+        const signupResponseData: ApiResponse<AuthUser> =
+            await signup(signupData);
+
+        if (signupResponseData.errors) {
             // Xử lý lỗi từ API và gán vào form
-            Object.entries(user.errors).forEach(([field, messages]) => {
-                // Gán lỗi vào từng trường
-                setError(field as keyof RawSignupInput, {
-                    type: "manual",
-                    message: Array.isArray(messages as string[])
-                        ? (messages as string[]).join(", ")
-                        : (messages as string),
-                });
-            });
+            Object.entries(signupResponseData.errors).forEach(
+                ([field, message]) => {
+                    setError(field as keyof RawSignupInput, {
+                        type: "manual",
+                        message,
+                    });
+                },
+            );
             return;
         }
-        const expires = Date.now() + 3600 * 1000; // 1 tiếng
-        document.cookie = `token=${user.data.access_token}; path=/; max-age=3600`;
-        localStorage.setItem("myCookieExpires", expires.toString());
-        handleLogin(user.data.user);
+
+        const { access_token, expires_at, user } =
+            signupResponseData.data ?? {};
+
+        if (!access_token || !expires_at || !user) {
+            console.error("Dữ liệu đăng nhập thiếu thông tin cần thiết.");
+            console.error("Đăng nhập thất bại. Vui lòng thử lại.");
+            return;
+        }
+
+        try {
+            const expiresTime = new Date(expires_at).getTime();
+            const maxAge = Math.floor((expiresTime - Date.now()) / 1000);
+
+            document.cookie = `token=${access_token}; path=/; max-age=${maxAge}`;
+            localStorage.setItem("myCookieExpires", expiresTime.toString());
+
+            handleLogin(user);
+        } catch (err) {
+            console.error("Lỗi khi xử lý lưu token:", err);
+            console.error("Đăng nhập thất bại.");
+        }
     };
 
     return (

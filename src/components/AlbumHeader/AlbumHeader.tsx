@@ -1,84 +1,86 @@
 import Image from "next/image";
-import ButtonPlay from "../Buttons/ButtonPlay";
+import ButtonPlay from "../Buttons/PlayButton";
 import Link from "next/link";
 import { AddIcon, ListIcon, MoreIcon } from "../icons/Icons";
+import { formatDuration } from "@/lib/utils";
+import { usePlayer } from "@/hooks/usePlayer";
+import { Song } from "@/types/song";
 import { useAuth } from "@/hooks/useAuth";
 import { useRouter } from "next/navigation";
 
-interface AlbumTitleProps {
-    isArtist?: boolean;
-    title?: string;
+interface AlbumHeaderProps {
+    title: string;
     artist?: string;
-    albumImgUrl?: string;
-    artistImgUrl?: string;
-    totalSongs?: number;
-    totalDuration?: number;
     artistId?: number;
-    songId?: number[];
+    PriImgUrl?: string;
+    SecImgUrl: string;
+    totalSongs?: number;
+    totalDuration: number;
+    type: "song" | "album" | "artist" | "playlist";
+    contextId: number;
+    songs: Song[];
 }
 
-const AlbumTitle: React.FC<AlbumTitleProps> = ({
-    isArtist = false,
-    title = "Title",
-    artist = "Artist",
-    albumImgUrl = "https://i.scdn.co/image/ab67616d00001e028bdbdf691a5b791a5afb515b",
-    artistImgUrl = "https://i.scdn.co/image/ab6761610000f178b9c9e23c646125922719489e",
+const AlbumHeader: React.FC<AlbumHeaderProps> = ({
+    title,
+    artist = undefined,
+    artistId = undefined,
+    PriImgUrl = "https://www.shyamh.com/images/blog/music.jpg",
+    SecImgUrl,
     totalSongs = 0,
-    totalDuration = 0,
-    artistId = "1",
-    songId = [1],
+    totalDuration,
+    type = "song",
+    contextId,
+    songs,
 }) => {
     const router = useRouter();
-
-    const {
-        user,
-        setAlbumSongsId,
-        setArtistSongsId,
-        setIsPlaying,
-        setCurrentSongId,
-        setImageUrl,
-    } = useAuth();
+    const { user } = useAuth();
+    const { playPlaylist } = usePlayer();
 
     const handleClickButtonPlay = () => {
         if (!user) {
             router.push("/login");
             return;
         }
-        setImageUrl(albumImgUrl);
-        if (artist === "Artist") {
-            setAlbumSongsId(null);
-            setCurrentSongId(songId[0]);
-            setArtistSongsId(songId);
-            setIsPlaying(true);
-        } else {
-            setArtistSongsId(null);
-            setCurrentSongId(songId[0]);
-            setAlbumSongsId(songId);
-            setIsPlaying(true);
-        }
+        playPlaylist(
+            {
+                id: contextId,
+                name: title,
+                playMode: type,
+                songs: songs,
+            },
+            0,
+        );
     };
 
     return (
         <div className="flex min-w-full flex-col">
             <div className="relative flex p-6">
                 <Image
-                    src={albumImgUrl}
+                    src={PriImgUrl}
                     alt="Image"
                     fill
                     className="absolute z-0 overflow-hidden object-cover shadow-[0px_0px_40px_rgba(0,0,0,0.4)] blur-3xl brightness-95"
                 />
                 <div className="z-10 mr-6 flex flex-col justify-end">
                     <Image
-                        src={albumImgUrl}
+                        src={PriImgUrl}
                         alt="Image"
                         width={221}
                         height={221}
-                        className="trasition-all aspect-square cursor-pointer overflow-hidden rounded-sm object-cover shadow-[0px_0px_40px_rgba(0,0,0,0.4)] duration-200 hover:scale-102"
+                        className="aspect-square cursor-pointer overflow-hidden rounded-sm object-cover shadow-[0px_0px_40px_rgba(0,0,0,0.4)] transition-all duration-200 hover:scale-102"
                     />
                 </div>
                 <div className="z-10 flex flex-1 flex-col justify-end gap-2">
                     <p className="text-sm font-medium">
-                        {isArtist ? "Artist" : "Album"}
+                        {
+                            {
+                                song: "Song",
+                                album: "Album",
+                                artist: "Artist",
+                                playlist: "Playlist",
+                            }[type]
+                        }
                     </p>
                     <h1 className="cursor-default text-6xl/tight font-extrabold">
                         {title}
@@ -86,13 +88,13 @@ const AlbumTitle: React.FC<AlbumTitleProps> = ({
                     {/* <AutoTextSize text="BẬT NÓ LÊN" /> */}
                     <div className="mt-3 flex items-center gap-1 truncate">
                         <Image
-                            src={artistImgUrl}
+                            src={SecImgUrl}
                             alt="Image"
                             width={24}
                             height={24}
                             className="aspect-square overflow-hidden rounded-full object-cover"
                         />
-                        {!isArtist && (
+                        {artist && artistId && (
                             <Link
                                 href={`/artist/${artistId}`}
                                 className="text-sm font-bold hover:underline"
@@ -103,7 +105,7 @@ const AlbumTitle: React.FC<AlbumTitleProps> = ({
                         <ul className="ml-4 flex list-disc gap-5 text-sm font-medium opacity-80">
                             <li className="-indent-[6px]">2025</li>
                             <li className="-indent-[6px]">
-                                {`${totalSongs} songs, ${Math.floor(totalDuration / 60)} min ${totalDuration % 60} sec`}
+                                {formatDuration(totalSongs, totalDuration)}
                             </li>
                         </ul>
                     </div>
@@ -131,4 +133,4 @@ const AlbumTitle: React.FC<AlbumTitleProps> = ({
     );
 };
 
-export default AlbumTitle;
+export default AlbumHeader;

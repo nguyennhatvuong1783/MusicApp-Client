@@ -1,20 +1,15 @@
 "use client";
-import AlbumTitle from "@/components/AlbumTitle/AlbumTitle";
-import ListSong from "@/components/ListSong/ListSong";
+import AlbumHeader from "@/components/AlbumHeader/AlbumHeader";
+import ListSong from "@/components/SongList/SongList";
 import { fetcher } from "@/lib/api";
-import type { ApiResponse, Artist } from "@/types/auth";
-import { use } from "react";
+import { ApiResponse } from "@/types/api";
+import { Artist } from "@/types/artist";
+import { useParams } from "next/navigation";
 import useSWR from "swr";
 
-interface AlbumPageParams {
-    id: string;
-}
-
-export default function Artist({ params }: { params: AlbumPageParams }) {
-    // No error =))
-    const unwrappedParams = use(params);
-    const id = unwrappedParams.id;
-    // No error =))
+export default function ArtistPage() {
+    const params = useParams<{ id: string }>();
+    const { id } = params;
 
     const { data, error, isLoading } = useSWR<ApiResponse<Artist>>(
         `artists/${id}`,
@@ -24,23 +19,27 @@ export default function Artist({ params }: { params: AlbumPageParams }) {
 
     return (
         <>
-            {!isLoading && (
+            {!isLoading && data?.data && (
                 <>
-                    <AlbumTitle
-                        isArtist={true}
-                        title={data?.data.name}
-                        artist={data?.data.name}
-                        albumImgUrl={data?.data.image_url}
-                        artistImgUrl={data?.data.image_url}
-                        totalSongs={data?.data.songs.length}
-                        totalDuration={data?.data.songs
-                            .map((item) => item.duration)
-                            .reduce((a, b) => a + b, 0)}
-                        songId={data?.data.songs.map((item) => item.id)}
+                    <AlbumHeader
+                        key={data.data.id}
+                        title={data.data.name}
+                        PriImgUrl={data.data.image_url}
+                        SecImgUrl={data.data.image_url}
+                        totalSongs={data.data.songs_count}
+                        totalDuration={data.data.songs.reduce(
+                            (total, song) => total + song.duration,
+                            0,
+                        )}
+                        type="artist"
+                        contextId={data.data.id}
+                        songs={data.data.songs}
                     />
                     <ListSong
-                        songs={data?.data.songs}
-                        imageUrl={data?.data.image_url}
+                        contextId={data.data.id}
+                        title={data.data.name}
+                        type="artist"
+                        songs={data.data.songs}
                     />
                 </>
             )}

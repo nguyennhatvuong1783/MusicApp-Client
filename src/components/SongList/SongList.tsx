@@ -1,46 +1,42 @@
 import React from "react";
 import { Clock } from "../icons/Icons";
-import { Song } from "@/types/auth";
-import { useAuth } from "@/hooks/useAuth";
+import { Song } from "@/types/song";
+import { usePlayer } from "@/hooks/usePlayer";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/hooks/useAuth";
 
 interface ListSongProps {
-    imageUrl?: string;
-    isAlbum?: boolean;
+    contextId: number;
+    title: string;
+    type: "song" | "album" | "artist" | "playlist";
     songs?: Song[];
 }
 
 const ListSong: React.FC<ListSongProps> = ({
+    contextId,
+    title,
+    type,
     songs = null,
-    isAlbum = false,
-    imageUrl = "https://www.shyamh.com/images/blog/music.jpg",
 }) => {
     const router = useRouter();
+    const { user } = useAuth();
 
-    const {
-        user,
-        setIsPlaying,
-        setCurrentSongId,
-        setAlbumSongsId,
-        setArtistSongsId,
-        setImageUrl,
-    } = useAuth();
+    const { playPlaylist } = usePlayer();
 
-    const handleClickDiv = (id: number) => {
+    const handleDoubleClick = (index: number) => {
         if (!user) {
             router.push("/login");
             return;
         }
-        setImageUrl(imageUrl);
-        if (isAlbum) {
-            setAlbumSongsId(null);
-            setArtistSongsId(songs?.map((item) => item.id) ?? []);
-        } else {
-            setArtistSongsId(null);
-            setAlbumSongsId(songs?.map((item) => item.id) ?? []);
-        }
-        setCurrentSongId(id);
-        setIsPlaying(true);
+        playPlaylist(
+            {
+                id: contextId,
+                name: title,
+                playMode: type,
+                songs: songs ?? [],
+            },
+            index,
+        );
     };
 
     return (
@@ -54,7 +50,10 @@ const ListSong: React.FC<ListSongProps> = ({
             </div>
             <ul>
                 {songs?.map((item, index) => (
-                    <li key={item.id} onClick={() => handleClickDiv(item.id)}>
+                    <li
+                        key={item.id}
+                        onDoubleClick={() => handleDoubleClick(index)}
+                    >
                         <div
                             className="grid h-14 cursor-pointer grid-cols-22 items-center gap-4 rounded text-sm font-medium text-(--secondary-text-color) focus-within:!bg-[#5a5a5a] hover:bg-[#2a2a2a]"
                             tabIndex={0}

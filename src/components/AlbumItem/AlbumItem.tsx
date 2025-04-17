@@ -3,54 +3,40 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import ButtonPlay from "../Buttons/ButtonPlay";
-import { Song } from "@/types/auth";
+import ButtonPlay from "../Buttons/PlayButton";
+import { Song } from "@/types/song";
+import { usePlayer } from "@/hooks/usePlayer";
 import { useAuth } from "@/hooks/useAuth";
 
 interface ItemAlbumProps {
-    title?: string;
+    title: string;
     artist?: string;
-    imgUrl?: string;
-    url?: string;
     artistId?: number;
-    isSong?: boolean;
-    song?: Song;
-    songId?: number[];
+    imgUrl?: string;
+    contextId: number;
+    songs: Song[];
+    type: "song" | "album" | "artist" | "playlist";
 }
 
-const ItemAlbum: React.FC<ItemAlbumProps> = ({
-    title = "Title",
-    artist = "Artist",
+const AlbumItem: React.FC<ItemAlbumProps> = ({
+    title,
+    artist = undefined,
+    artistId = undefined,
     imgUrl = "https://www.shyamh.com/images/blog/music.jpg",
-    url = "#",
-    artistId = 1,
-    isSong = false,
-    song,
-    songId = [1],
+    contextId,
+    songs,
+    type = "song",
 }) => {
     const router = useRouter();
-    const {
-        user,
-        setIsPlaying,
-        setCurrentSongId,
-        setArtistSongsId,
-        setAlbumSongsId,
-        setImageUrl,
-    } = useAuth();
+    const { user } = useAuth();
+    const { playSong, playPlaylist } = usePlayer();
 
     const handleClickDiv = () => {
-        if (isSong) {
-            if (!user) {
-                router.push("/login");
-                return;
-            }
-            setImageUrl(imgUrl);
-            setAlbumSongsId(null);
-            setArtistSongsId(null);
-            setCurrentSongId(song?.id ?? 0);
-            setIsPlaying(true);
+        if (type === "song") {
+            handleClickButtonPlay();
             return;
         }
+        const url = `/${type}/${contextId}`;
         router.push(url);
     };
 
@@ -59,25 +45,19 @@ const ItemAlbum: React.FC<ItemAlbumProps> = ({
             router.push("/login");
             return;
         }
-        setImageUrl(imgUrl);
-        if (isSong) {
-            setAlbumSongsId(null);
-            setArtistSongsId(null);
-            setCurrentSongId(song?.id ?? 0);
-            setIsPlaying(true);
-            return;
-        } else if (artist === "Artist") {
-            setAlbumSongsId(null);
-            setCurrentSongId(songId[0]);
-            setArtistSongsId(songId);
-            setIsPlaying(true);
+        if (songs.length > 1) {
+            playPlaylist(
+                {
+                    id: contextId,
+                    name: title,
+                    playMode: type,
+                    songs: songs,
+                },
+                0,
+            );
         } else {
-            setArtistSongsId(null);
-            setCurrentSongId(songId[0]);
-            setAlbumSongsId(songId);
-            setIsPlaying(true);
+            playSong(songs[0]);
         }
-        router.push(url);
     };
 
     return (
@@ -99,26 +79,23 @@ const ItemAlbum: React.FC<ItemAlbumProps> = ({
                 />
             </div>
 
-            <Link
-                href={url}
+            <p
                 className="mt-1 self-start font-bold decoration-[.1rem] hover:underline"
-                onClick={(e) => {
-                    e.stopPropagation();
-                }}
+                onClick={handleClickDiv}
             >
                 {title}
-            </Link>
+            </p>
             <Link
                 href={`/artist/${artistId}`}
-                className="self-start text-sm text-(--secondary-text-color) hover:underline"
+                className={`self-start text-sm text-(--secondary-text-color) hover:underline ${!artist && "pointer-events-none"}`}
                 onClick={(e) => {
                     e.stopPropagation();
                 }}
             >
-                {artist}
+                {artist ? artist : "Artist"}
             </Link>
         </div>
     );
 };
 
-export default ItemAlbum;
+export default AlbumItem;

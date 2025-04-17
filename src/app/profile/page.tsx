@@ -2,10 +2,11 @@
 import { SuccessDialog } from "@/components/Dialog/SuccessDialog";
 import Footer from "@/components/Footer/Footer";
 import Header from "@/components/Header/Header";
-import TextboxLogin from "@/components/Textbox/TextboxLogin";
+import TextboxLogin from "@/components/TextInput/TextInput";
 import { useAuth } from "@/hooks/useAuth";
 import { changePassword, editProfile } from "@/lib/callApi";
-import { ApiResponse, ChangePasswordFormData, User } from "@/types/auth";
+import { ApiResponse } from "@/types/api";
+import { PasswordChangeDto, User } from "@/types/user";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -92,7 +93,7 @@ type RawProfileInput = z.infer<typeof profileSchema>;
 type RawPasswordInput = z.infer<typeof passwordSchema>;
 
 const Profile = () => {
-    const { user, setUser } = useAuth();
+    const { user } = useAuth();
     const [isSuccessOpen, setIsSuccessOpen] = useState(false);
     const [message, setMessage] = useState("");
 
@@ -140,14 +141,12 @@ const Profile = () => {
             });
             return;
         }
-        setUser(null);
-        setUser(user.data);
         setMessage("Profile saved successfully!");
         setIsSuccessOpen(true);
     };
 
     const onSubmitPassword = async (data: RawPasswordInput) => {
-        const passwordData: ChangePasswordFormData = {
+        const passwordData: PasswordChangeDto = {
             current_password: data.current_password,
             new_password: data.new_password,
             new_password_confirmation: data.new_password_confirmation,

@@ -1,16 +1,10 @@
+"use client";
 import Content from "@/components/Content/Content";
-import { use } from "react";
+import { useParams } from "next/navigation";
 
-interface SectionPageParams {
-    id: string;
-}
-
-export default function Search({ params }: { params: SectionPageParams }) {
-    // No error =))
-    const unwrappedParams = use(params);
-    const keyword = unwrappedParams.keyword;
-
-    // No error =))
+export default function Search() {
+    const params = useParams<{ keyword: string }>();
+    const { keyword } = params;
 
     return <Content keyword={keyword} />;
 }
