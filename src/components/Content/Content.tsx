@@ -46,125 +46,131 @@ const Content: React.FC<ContentProps> = ({ keyword = null }) => {
 
     return (
         <div className="px-3">
-            <div className="my-5 mb-10 overflow-hidden">
-                <div className="mb-2 flex items-end justify-between px-3 font-bold">
-                    {!keyword ? (
-                        <>
-                            <Link
-                                href="/section/albums"
-                                className="text-2xl decoration-2 hover:underline"
-                            >
-                                Popular albums and singles
-                            </Link>
-                            <Link
-                                href="/section/albums"
-                                className="text-sm text-(--secondary-text-color) hover:underline"
-                            >
-                                Show all
-                            </Link>
-                        </>
-                    ) : (
-                        <>
-                            <p className="text-2xl decoration-2">Albums</p>
-                        </>
-                    )}
+            {albumsData?.data?.data.length ? (
+                <div className="my-5 mb-10 overflow-hidden">
+                    <div className="mb-2 flex items-end justify-between px-3 font-bold">
+                        {!keyword ? (
+                            <>
+                                <Link
+                                    href="/section/albums"
+                                    className="text-2xl decoration-2 hover:underline"
+                                >
+                                    Popular albums and singles
+                                </Link>
+                                <Link
+                                    href="/section/albums"
+                                    className="text-sm text-(--secondary-text-color) hover:underline"
+                                >
+                                    Show all
+                                </Link>
+                            </>
+                        ) : (
+                            <>
+                                <p className="text-2xl decoration-2">Albums</p>
+                            </>
+                        )}
+                    </div>
+                    <div className="grid grid-cols-5">
+                        {!isAlbumsLoading &&
+                            albumsData?.data &&
+                            albumsData?.data.data.map((item) => (
+                                <AlbumItem
+                                    key={item.id}
+                                    title={item.title}
+                                    artist={item.artist.name}
+                                    artistId={item.artist.id}
+                                    imgUrl={item.image_url}
+                                    contextId={item.id}
+                                    songs={item.songs}
+                                    type="album"
+                                />
+                            ))}
+                    </div>
                 </div>
-                <div className="grid grid-cols-5">
-                    {!isAlbumsLoading &&
-                        albumsData?.data &&
-                        albumsData?.data.data.map((item) => (
-                            <AlbumItem
-                                key={item.id}
-                                title={item.title}
-                                artist={item.artist.name}
-                                artistId={item.artist.id}
-                                imgUrl={item.image_url}
-                                contextId={item.id}
-                                songs={item.songs}
-                                type="album"
-                            />
-                        ))}
+            ) : null}
+            {ArtistsData?.data?.data.length ? (
+                <div className="my-5 mb-10 overflow-hidden">
+                    <div className="mb-2 flex items-end justify-between px-3 font-bold">
+                        {!keyword ? (
+                            <>
+                                <Link
+                                    href="/section/artists"
+                                    className="text-2xl decoration-2 hover:underline"
+                                >
+                                    Popular artists
+                                </Link>
+                                <Link
+                                    href="/section/artists"
+                                    className="text-sm text-(--secondary-text-color) hover:underline"
+                                >
+                                    Show all
+                                </Link>
+                            </>
+                        ) : (
+                            <>
+                                <p className="text-2xl decoration-2">Artists</p>
+                            </>
+                        )}
+                    </div>
+                    <div className="grid grid-cols-5">
+                        {!isArtistsLoading &&
+                            ArtistsData?.data &&
+                            ArtistsData?.data.data.map((item) => (
+                                <AlbumItem
+                                    key={item.id}
+                                    title={item.name}
+                                    imgUrl={item.image_url}
+                                    contextId={item.id}
+                                    songs={item.songs}
+                                    type="artist"
+                                />
+                            ))}
+                    </div>
                 </div>
-            </div>
-            <div className="my-5 mb-10 overflow-hidden">
-                <div className="mb-2 flex items-end justify-between px-3 font-bold">
-                    {!keyword ? (
-                        <>
-                            <Link
-                                href="/section/artists"
-                                className="text-2xl decoration-2 hover:underline"
-                            >
-                                Popular artists
-                            </Link>
-                            <Link
-                                href="/section/artists"
-                                className="text-sm text-(--secondary-text-color) hover:underline"
-                            >
-                                Show all
-                            </Link>
-                        </>
-                    ) : (
-                        <>
-                            <p className="text-2xl decoration-2">Artists</p>
-                        </>
-                    )}
+            ) : null}
+            {SongsData?.data?.data.length ? (
+                <div className="my-5 mb-10 overflow-hidden">
+                    <div className="mb-2 flex items-end justify-between px-3 font-bold">
+                        {!keyword ? (
+                            <>
+                                <Link
+                                    href="/section/songs"
+                                    className="text-2xl decoration-2 hover:underline"
+                                >
+                                    Trending songs
+                                </Link>
+                                <Link
+                                    href="/section/songs"
+                                    className="text-sm text-(--secondary-text-color) hover:underline"
+                                >
+                                    Show all
+                                </Link>
+                            </>
+                        ) : (
+                            <>
+                                <p className="text-2xl decoration-2">Songs</p>
+                            </>
+                        )}
+                    </div>
+                    <div className="grid grid-cols-5">
+                        {!isSongsLoading &&
+                            SongsData?.data &&
+                            SongsData?.data.data.map((item) => (
+                                <AlbumItem
+                                    key={item.id}
+                                    title={item.title}
+                                    artist={item.artists
+                                        ?.map((artist) => artist.name)
+                                        .join(", ")}
+                                    artistId={item.artists[0].id}
+                                    contextId={item.id}
+                                    songs={[item]}
+                                    type="song"
+                                />
+                            ))}
+                    </div>
                 </div>
-                <div className="grid grid-cols-5">
-                    {!isArtistsLoading &&
-                        ArtistsData?.data &&
-                        ArtistsData?.data.data.map((item) => (
-                            <AlbumItem
-                                key={item.id}
-                                title={item.name}
-                                imgUrl={item.image_url}
-                                contextId={item.id}
-                                songs={item.songs}
-                                type="artist"
-                            />
-                        ))}
-                </div>
-            </div>
-            <div className="my-5 mb-10 overflow-hidden">
-                <div className="mb-2 flex items-end justify-between px-3 font-bold">
-                    {!keyword ? (
-                        <>
-                            <Link
-                                href="/section/songs"
-                                className="text-2xl decoration-2 hover:underline"
-                            >
-                                Trending songs
-                            </Link>
-                            <Link
-                                href="/section/songs"
-                                className="text-sm text-(--secondary-text-color) hover:underline"
-                            >
-                                Show all
-                            </Link>
-                        </>
-                    ) : (
-                        <>
-                            <p className="text-2xl decoration-2">Songs</p>
-                        </>
-                    )}
-                </div>
-                <div className="grid grid-cols-5">
-                    {!isSongsLoading &&
-                        SongsData?.data &&
-                        SongsData?.data.data.map((item) => (
-                            <AlbumItem
-                                key={item.id}
-                                title={item.title}
-                                artist={item.artists
-                                    ?.map((artist) => artist.name)
-                                    .join(", ")}
-                                artistId={item.artists[0].id}
-                                contextId={item.id}
-                                songs={[item]}
-                                type="song"
-                            />
-                        ))}
-                </div>
-            </div>
+            ) : null}
         </div>
     );
 };

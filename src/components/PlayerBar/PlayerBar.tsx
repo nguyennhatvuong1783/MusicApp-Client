@@ -2,6 +2,7 @@
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import {
+    AddIcon,
     Lyrics,
     MaxVolume,
     Mute,
@@ -15,6 +16,7 @@ import {
 } from "../icons/Icons";
 import { usePlayer } from "@/hooks/usePlayer";
 import { formatTime } from "@/lib/utils";
+import AddSongToPlaylistModel from "../AddSongToPlaylistDModel/AddSongToPlaylistModel";
 
 const PlayerBar = () => {
     const [valuePlayer, setValuePlayer] = useState<number>(0);
@@ -25,6 +27,7 @@ const PlayerBar = () => {
     const [isMuted, setIsMuted] = useState(false);
     const [passedTime, setPassedTime] = useState(0);
     const [isSeeking, setIsSeeking] = useState(false);
+    const [showModal, setShowModal] = useState(false);
     const audioRef = useRef<HTMLAudioElement>(null);
 
     const {
@@ -168,6 +171,18 @@ const PlayerBar = () => {
                                     .map((artist) => artist.name)
                                     .join(", ")}
                             </span>
+                        </div>
+                        <div className="ml-4">
+                            {showModal && (
+                                <AddSongToPlaylistModel
+                                    songId={currentSong.id}
+                                    onClose={() => setShowModal(false)}
+                                />
+                            )}
+                            <AddIcon
+                                className="h-4 w-4 cursor-pointer"
+                                onClick={() => setShowModal(!showModal)}
+                            />
                         </div>
                     </>
                 )}

@@ -113,13 +113,17 @@ const AlbumHeader: React.FC<AlbumHeaderProps> = ({
             </div>
             <div className="flex items-center justify-between p-6">
                 <div className="flex items-center gap-6">
-                    <ButtonPlay
-                        className="p-4"
-                        onClick={handleClickButtonPlay}
-                    />
-                    <div>
-                        <AddIcon className="h-8 w-8 cursor-pointer text-(--secondary-text-color) hover:scale-105 hover:text-(--text-color) active:scale-100 active:text-(--secondary-text-color)" />
-                    </div>
+                    {songs.length ? (
+                        <ButtonPlay
+                            className="p-4"
+                            onClick={handleClickButtonPlay}
+                        />
+                    ) : null}
+                    {type === "album" && (
+                        <div>
+                            <AddIcon className="h-8 w-8 cursor-pointer text-(--secondary-text-color) hover:scale-105 hover:text-(--text-color) active:scale-100 active:text-(--secondary-text-color)" />
+                        </div>
+                    )}
                     <div>
                         <MoreIcon className="h-8 w-8 cursor-pointer text-(--secondary-text-color) hover:scale-105 hover:text-(--text-color) active:scale-100 active:text-(--secondary-text-color)" />
                     </div>

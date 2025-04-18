@@ -6,10 +6,11 @@ import TextboxLogin from "@/components/TextInput/TextInput";
 import { useAuth } from "@/hooks/useAuth";
 import { changePassword, editProfile } from "@/lib/callApi";
 import { ApiResponse } from "@/types/api";
-import { PasswordChangeDto, User } from "@/types/user";
+import { PasswordChangeDto, UpdateProfileDto, User } from "@/types/user";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { mutate } from "swr";
 import { z } from "zod";
 
 const phoneRegex = new RegExp(/(84|0[3|5|7|8|9])+([0-9]{8})\b/g);
@@ -115,34 +116,36 @@ const Profile = () => {
         handleSubmit: handleSubmitPassword,
         formState: { errors: errorsPassword },
         setError: setErrorPassword,
+        reset,
     } = useForm<RawPasswordInput>({
         resolver: zodResolver(passwordSchema),
     });
 
     const onSubmitProfile = async (data: RawProfileInput) => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const profileData: User | any = {
+        const profileData: UpdateProfileDto = {
             email: data.email,
             phone: data.phone,
         };
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const user: ApiResponse<User> | any = await editProfile(profileData);
-        if (user.errors) {
+        const editProfileResponseData: ApiResponse<User> =
+            await editProfile(profileData);
+        if (editProfileResponseData.errors) {
             // Xử lý lỗi từ API và gán vào form
-            Object.entries(user.errors).forEach(([field, messages]) => {
-                // Gán lỗi vào từng trường
-                setErrorProfile(field as keyof RawProfileInput, {
-                    type: "manual",
-                    message: Array.isArray(messages as string[])
-                        ? (messages as string[]).join(", ")
-                        : (messages as string),
-                });
-            });
+            Object.entries(editProfileResponseData.errors).forEach(
+                ([field, message]) => {
+                    setErrorProfile(field as keyof RawProfileInput, {
+                        type: "manual",
+                        message,
+                    });
+                },
+            );
             return;
         }
         setMessage("Profile saved successfully!");
         setIsSuccessOpen(true);
+        mutate("auth/me");
     };
 
     const onSubmitPassword = async (data: RawPasswordInput) => {
@@ -164,10 +167,11 @@ const Profile = () => {
         }
         setMessage("Password changed successfully!");
         setIsSuccessOpen(true);
+        reset();
     };
 
     return (
-        <div>
+        <div className="p-2">
             <Header />
             <div className="block h-full w-full pt-16">
                 <div className="flex justify-center py-8">

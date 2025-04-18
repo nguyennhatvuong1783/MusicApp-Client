@@ -31,7 +31,6 @@ export interface RegisterUserDto {
 
 // For user profile updates (excluding sensitive fields)
 export interface UpdateProfileDto {
-    username?: string;
     email?: string;
     phone?: string;
     image_url?: string | null;
