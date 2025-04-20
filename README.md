@@ -1,4 +1,4 @@
-# MusicChat-Client
+# Back-end
 
 [MusicApp Server](https://github.com/nguyennhatvuong1783/MusicApp-Server).
 
