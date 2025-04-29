@@ -7,12 +7,14 @@ import {
 import LeftMenu from "../LeftMenu/LeftMenu";
 import { ScrollArea } from "../ui/scroll-area";
 import Footer from "../Footer/Footer";
+import { usePathname } from "next/navigation";
 
 interface MainContentProps {
     Content: React.ReactNode;
 }
 
 const MainContent: React.FC<MainContentProps> = ({ Content }) => {
+    const currentPath = usePathname();
     const isMobile = false;
 
     return (
@@ -34,7 +36,10 @@ const MainContent: React.FC<MainContentProps> = ({ Content }) => {
             {/* Main content */}
             <ResizablePanel defaultSize={isMobile ? 80 : 60}>
                 <div className="h-full overflow-hidden rounded-md bg-(image:--gradient-color)">
-                    <ScrollArea className="h-[calc(100vh-70px)]">
+                    <ScrollArea
+                        key={currentPath}
+                        className="h-[calc(100vh-70px)]"
+                    >
                         {Content}
                         <Footer />
                     </ScrollArea>

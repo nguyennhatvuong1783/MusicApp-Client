@@ -2,7 +2,7 @@
 import { SuccessDialog } from "@/components/Dialog/SuccessDialog";
 import Footer from "@/components/Footer/Footer";
 import Header from "@/components/Header/Header";
-import TextboxLogin from "@/components/TextInput/TextInput";
+import TextInput from "@/components/TextInput/TextInput";
 import { useAuth } from "@/hooks/useAuth";
 import { changePassword, editProfile } from "@/lib/callApi";
 import { ApiResponse } from "@/types/api";
@@ -181,22 +181,22 @@ const Profile = () => {
                         </h1>
                         <form onSubmit={handleSubmitProfile(onSubmitProfile)}>
                             <div className="flex flex-col gap-6 pb-10">
-                                <TextboxLogin
+                                <TextInput
                                     label="Username"
                                     isDisabled={true}
                                     value={user?.username}
                                 />
-                                <TextboxLogin
+                                <TextInput
                                     label="Your plan"
                                     isDisabled={true}
                                     value={user?.account_type.toUpperCase()}
                                 />
-                                <TextboxLogin
+                                <TextInput
                                     label="Email"
                                     register={registerProfile("email")}
                                     error={errorsProfile.email?.message}
                                 />
-                                <TextboxLogin
+                                <TextInput
                                     label="Phone number"
                                     register={registerProfile("phone")}
                                     error={errorsProfile.phone?.message}
@@ -216,7 +216,7 @@ const Profile = () => {
                                 Change password
                             </h1>
                             <div className="flex flex-col gap-6 pb-4">
-                                <TextboxLogin
+                                <TextInput
                                     label="Current password"
                                     register={registerPassword(
                                         "current_password",
@@ -225,13 +225,13 @@ const Profile = () => {
                                         errorsPassword.current_password?.message
                                     }
                                 />
-                                <TextboxLogin
+                                <TextInput
                                     label="New password"
                                     isPassword={true}
                                     register={registerPassword("new_password")}
                                     error={errorsPassword.new_password?.message}
                                 />
-                                <TextboxLogin
+                                <TextInput
                                     label="Confirm new password"
                                     isPassword={true}
                                     register={registerPassword(

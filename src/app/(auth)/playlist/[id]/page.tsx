@@ -1,5 +1,5 @@
 "use client";
-import AlbumHeader from "@/components/AlbumHeader/AlbumHeader";
+import ContextHeader from "@/components/ContextHeader/ContextHeader";
 import ListSong from "@/components/SongList/SongList";
 import { useAuth } from "@/hooks/useAuth";
 import { fetcher } from "@/lib/api";
@@ -24,7 +24,7 @@ export default function PlaylistPage() {
         <>
             {!isLoading && data?.data && (
                 <>
-                    <AlbumHeader
+                    <ContextHeader
                         key={data.data.id}
                         title={data.data.title}
                         artist={user?.username}

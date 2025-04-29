@@ -1,13 +1,13 @@
 import Link from "next/link";
 import React from "react";
 
-interface BtnTxtImgProps {
+interface TextIconButtonProps {
     text?: string;
     url?: string;
     Icon?: React.ReactNode | null;
 }
 
-const BtnTxtImg: React.FC<BtnTxtImgProps> = ({
+const TextIconButton: React.FC<TextIconButtonProps> = ({
     text = "Button",
     url = "#",
     Icon = null,
@@ -27,4 +27,4 @@ const BtnTxtImg: React.FC<BtnTxtImgProps> = ({
     );
 };
 
-export default BtnTxtImg;
+export default TextIconButton;

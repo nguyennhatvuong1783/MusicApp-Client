@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import AlbumItem from "../AlbumItem/AlbumItem";
+import ContextItem from "../ContextItem/ContextItem";
 import Link from "next/link";
 import { ApiResponse, Pagination } from "@/types/api";
 import { Album } from "@/types/album";
@@ -74,7 +74,7 @@ const Content: React.FC<ContentProps> = ({ keyword = null }) => {
                         {!isAlbumsLoading &&
                             albumsData?.data &&
                             albumsData?.data.data.map((item) => (
-                                <AlbumItem
+                                <ContextItem
                                     key={item.id}
                                     title={item.title}
                                     artist={item.artist.name}
@@ -116,7 +116,7 @@ const Content: React.FC<ContentProps> = ({ keyword = null }) => {
                         {!isArtistsLoading &&
                             ArtistsData?.data &&
                             ArtistsData?.data.data.map((item) => (
-                                <AlbumItem
+                                <ContextItem
                                     key={item.id}
                                     title={item.name}
                                     imgUrl={item.image_url}
@@ -156,7 +156,7 @@ const Content: React.FC<ContentProps> = ({ keyword = null }) => {
                         {!isSongsLoading &&
                             SongsData?.data &&
                             SongsData?.data.data.map((item) => (
-                                <AlbumItem
+                                <ContextItem
                                     key={item.id}
                                     title={item.title}
                                     artist={item.artists

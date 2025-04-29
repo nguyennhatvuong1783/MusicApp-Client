@@ -2,7 +2,7 @@ import React from "react";
 import { UseFormRegisterReturn } from "react-hook-form";
 import { Warning } from "../icons/Icons";
 
-interface TextboxLoginProps {
+interface TextInputProps {
     label?: string;
     placeholder?: string;
     isPassword?: boolean;
@@ -12,7 +12,7 @@ interface TextboxLoginProps {
     value?: string;
 }
 
-const TextboxLogin: React.FC<TextboxLoginProps> = ({
+const TextInput: React.FC<TextInputProps> = ({
     label = "Label",
     placeholder = "",
     isPassword = false,
@@ -42,4 +42,4 @@ const TextboxLogin: React.FC<TextboxLoginProps> = ({
     );
 };
 
-export default TextboxLogin;
+export default TextInput;

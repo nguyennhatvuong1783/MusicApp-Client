@@ -1,12 +1,12 @@
 "use client";
-import BtnTxtImg from "@/components/Buttons/TextIconButton";
+import TextIconButton from "@/components/Buttons/TextIconButton";
 import {
     Apple,
     FacebookColor,
     Google,
     MusicChat,
 } from "@/components/icons/Icons";
-import TextboxLogin from "@/components/TextInput/TextInput";
+import TextInput from "@/components/TextInput/TextInput";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -104,19 +104,19 @@ export default function Login() {
                 </div>
 
                 <div className="flex w-full flex-col justify-center md:w-auto">
-                    <BtnTxtImg
+                    <TextIconButton
                         text="Continue with Google"
                         Icon={<Google className="h-6 w-6" />}
                     />
-                    <BtnTxtImg
+                    <TextIconButton
                         text="Continue with Facebook"
                         Icon={<FacebookColor className="h-6 w-6" />}
                     />
-                    <BtnTxtImg
+                    <TextIconButton
                         text="Continue with Apple"
                         Icon={<Apple className="h-6 w-6" />}
                     />
-                    <BtnTxtImg text="Continue with phone number" />
+                    <TextIconButton text="Continue with phone number" />
                 </div>
 
                 <hr className="my-9 w-full border-[#292929]" />
@@ -128,7 +128,7 @@ export default function Login() {
                 >
                     <div className="flex flex-col justify-center">
                         <div className="mb-2">
-                            <TextboxLogin
+                            <TextInput
                                 label="Email or username"
                                 placeholder="Email or username"
                                 register={register("identity")}
@@ -136,7 +136,7 @@ export default function Login() {
                             />
                         </div>
                         <div>
-                            <TextboxLogin
+                            <TextInput
                                 label="Password"
                                 placeholder="Password"
                                 isPassword

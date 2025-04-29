@@ -1,5 +1,5 @@
 import Image from "next/image";
-import ButtonPlay from "../Buttons/PlayButton";
+import PlayButton from "../Buttons/PlayButton";
 import Link from "next/link";
 import { AddIcon, ListIcon, MoreIcon } from "../icons/Icons";
 import { formatDuration } from "@/lib/utils";
@@ -8,7 +8,7 @@ import { Song } from "@/types/song";
 import { useAuth } from "@/hooks/useAuth";
 import { useRouter } from "next/navigation";
 
-interface AlbumHeaderProps {
+interface ContextHeaderProps {
     title: string;
     artist?: string;
     artistId?: number;
@@ -21,7 +21,7 @@ interface AlbumHeaderProps {
     songs: Song[];
 }
 
-const AlbumHeader: React.FC<AlbumHeaderProps> = ({
+const ContextHeader: React.FC<ContextHeaderProps> = ({
     title,
     artist = undefined,
     artistId = undefined,
@@ -114,7 +114,7 @@ const AlbumHeader: React.FC<AlbumHeaderProps> = ({
             <div className="flex items-center justify-between p-6">
                 <div className="flex items-center gap-6">
                     {songs.length ? (
-                        <ButtonPlay
+                        <PlayButton
                             className="p-4"
                             onClick={handleClickButtonPlay}
                         />
@@ -137,4 +137,4 @@ const AlbumHeader: React.FC<AlbumHeaderProps> = ({
     );
 };
 
-export default AlbumHeader;
+export default ContextHeader;

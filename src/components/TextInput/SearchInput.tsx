@@ -2,12 +2,12 @@
 import React from "react";
 import { Search } from "../icons/Icons";
 
-interface TextboxProps {
+interface SearchInputProps {
     onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
     value?: string;
 }
 
-const SearchInput: React.FC<TextboxProps> = ({ onChange, value }) => {
+const SearchInput: React.FC<SearchInputProps> = ({ onChange, value }) => {
     return (
         <div className="group relative mx-2 flex max-w-118.5 flex-1 rounded-full bg-(--secondary-color) transition duration-500 focus-within:!inset-ring-2 focus-within:!inset-ring-(--text-color) focus-within:brightness-130 hover:inset-ring hover:inset-ring-[#3a3a3a] hover:brightness-130">
             <label htmlFor="search">

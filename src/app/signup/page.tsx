@@ -1,12 +1,12 @@
 "use client";
-import BtnTxtImg from "@/components/Buttons/TextIconButton";
+import TextIconButton from "@/components/Buttons/TextIconButton";
 import {
     Apple,
     FacebookColor,
     Google,
     MusicChat,
 } from "@/components/icons/Icons";
-import TextboxLogin from "@/components/TextInput/TextInput";
+import TextInput from "@/components/TextInput/TextInput";
 import { useAuth } from "@/hooks/useAuth";
 import { signup } from "@/lib/callApi";
 import { ApiResponse } from "@/types/api";
@@ -170,32 +170,32 @@ export default function Signup() {
                 </div>
                 <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
                     <div className="flex flex-col gap-2">
-                        <TextboxLogin
+                        <TextInput
                             label="Username"
                             placeholder="Username"
                             register={register("username")}
                             error={errors.username?.message}
                         />
-                        <TextboxLogin
+                        <TextInput
                             label="Email address"
                             placeholder="name@domain.com"
                             register={register("email")}
                             error={errors.email?.message}
                         />
-                        <TextboxLogin
+                        <TextInput
                             label="Phone number"
                             placeholder="Phone number"
                             register={register("phone")}
                             error={errors.phone?.message}
                         />
-                        <TextboxLogin
+                        <TextInput
                             label="Password"
                             placeholder="Password"
                             isPassword={true}
                             register={register("password")}
                             error={errors.password?.message}
                         />
-                        <TextboxLogin
+                        <TextInput
                             label="Confirm password"
                             placeholder="Confirm password"
                             isPassword={true}
@@ -221,19 +221,19 @@ export default function Signup() {
                 </div>
                 <div className="my-2 flex w-full flex-col">
                     <div>
-                        <BtnTxtImg
+                        <TextIconButton
                             text="Sign up with Google"
                             Icon={<Google className="h-6 w-6" />}
                         />
                     </div>
                     <div>
-                        <BtnTxtImg
+                        <TextIconButton
                             text="Sign up with Facebook"
                             Icon={<FacebookColor className="h-6 w-6" />}
                         />
                     </div>
                     <div>
-                        <BtnTxtImg
+                        <TextIconButton
                             text="Sign up with Apple"
                             Icon={<Apple className="h-6 w-6" />}
                         />

@@ -5,14 +5,14 @@ import { usePlayer } from "@/hooks/usePlayer";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
 
-interface ListSongProps {
+interface SongListProps {
     contextId: number;
     title: string;
     type: "song" | "album" | "artist" | "playlist";
     songs?: Song[];
 }
 
-const ListSong: React.FC<ListSongProps> = ({
+const ListSong: React.FC<SongListProps> = ({
     contextId,
     title,
     type,

@@ -1,5 +1,5 @@
 "use client";
-import AlbumHeader from "@/components/AlbumHeader/AlbumHeader";
+import ContextHeader from "@/components/ContextHeader/ContextHeader";
 import ListSong from "@/components/SongList/SongList";
 import { fetcher } from "@/lib/api";
 import { ApiResponse } from "@/types/api";
@@ -21,7 +21,7 @@ export default function ArtistPage() {
         <>
             {!isLoading && data?.data && (
                 <>
-                    <AlbumHeader
+                    <ContextHeader
                         key={data.data.id}
                         title={data.data.name}
                         PriImgUrl={data.data.image_url}

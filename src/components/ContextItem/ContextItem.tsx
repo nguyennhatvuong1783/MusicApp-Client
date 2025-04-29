@@ -3,12 +3,12 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import ButtonPlay from "../Buttons/PlayButton";
+import PlayButton from "../Buttons/PlayButton";
 import { Song } from "@/types/song";
 import { usePlayer } from "@/hooks/usePlayer";
 import { useAuth } from "@/hooks/useAuth";
 
-interface ItemAlbumProps {
+interface ContextItemProps {
     title: string;
     artist?: string;
     artistId?: number;
@@ -18,7 +18,7 @@ interface ItemAlbumProps {
     type: "song" | "album" | "artist" | "playlist";
 }
 
-const AlbumItem: React.FC<ItemAlbumProps> = ({
+const ContextItem: React.FC<ContextItemProps> = ({
     title,
     artist = undefined,
     artistId = undefined,
@@ -73,7 +73,7 @@ const AlbumItem: React.FC<ItemAlbumProps> = ({
                     height={500}
                     className="aspect-square overflow-hidden rounded-md object-cover"
                 />
-                <ButtonPlay
+                <PlayButton
                     className="absolute right-2 bottom-0 opacity-0 shadow-[0px_8px_15px_rgba(0,0,0,0.4)] group-hover:-translate-y-2 group-hover:opacity-100"
                     onClick={handleClickButtonPlay}
                 />
@@ -98,4 +98,4 @@ const AlbumItem: React.FC<ItemAlbumProps> = ({
     );
 };
 
-export default AlbumItem;
+export default ContextItem;

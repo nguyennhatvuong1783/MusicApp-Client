@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import AlbumItem from "../AlbumItem/AlbumItem";
+import ContextItem from "../ContextItem/ContextItem";
 import { fetcher } from "@/lib/api";
 import useSWR from "swr";
 import { ApiResponse, Pagination } from "@/types/api";
@@ -8,11 +8,11 @@ import { Artist } from "@/types/artist";
 import { Album } from "@/types/album";
 import { Song } from "@/types/song";
 
-interface ListAlbumProps {
+interface ContextListProps {
     contextKey: string;
 }
 
-const AlbumList: React.FC<ListAlbumProps> = ({ contextKey }) => {
+const ContextList: React.FC<ContextListProps> = ({ contextKey }) => {
     const { data, error, isLoading } = useSWR<
         ApiResponse<Pagination<Artist | Album | Song>>
     >(contextKey, fetcher);
@@ -35,7 +35,7 @@ const AlbumList: React.FC<ListAlbumProps> = ({ contextKey }) => {
             <div className="grid grid-cols-5 gap-y-6">
                 {!isLoading && data?.data && contextKey == "artists"
                     ? data?.data.data.map((artist) => (
-                          <AlbumItem
+                          <ContextItem
                               key={artist.id}
                               title={(artist as Artist).name}
                               imgUrl={(artist as Artist).image_url}
@@ -46,7 +46,7 @@ const AlbumList: React.FC<ListAlbumProps> = ({ contextKey }) => {
                       ))
                     : !isLoading && data?.data && contextKey == "songs"
                       ? data?.data.data.map((song) => (
-                            <AlbumItem
+                            <ContextItem
                                 key={song.id}
                                 title={(song as Song).title}
                                 artist={(song as Song).artists
@@ -60,7 +60,7 @@ const AlbumList: React.FC<ListAlbumProps> = ({ contextKey }) => {
                         ))
                       : !isLoading && data?.data && contextKey == "albums"
                         ? data?.data.data.map((album) => (
-                              <AlbumItem
+                              <ContextItem
                                   key={album.id}
                                   title={(album as Album).title}
                                   artist={(album as Album).artist.name}
@@ -77,4 +77,4 @@ const AlbumList: React.FC<ListAlbumProps> = ({ contextKey }) => {
     );
 };
 
-export default AlbumList;
+export default ContextList;
