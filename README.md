@@ -1,34 +1,66 @@
+# 🎧 MusicApp - Frontend
+
+Đây là phần frontend của dự án **Web Nghe Nhạc Trực Tuyến**, được xây dựng bằng **Next.js**, **TypeScript** và **Tailwind CSS**.
+
+## 🧰 Công nghệ sử dụng
+
+- [Next.js](https://nextjs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [React Hook Form](https://react-hook-form.com/)
+- [SWR](https://swr.vercel.app/)
+
+## 🚀 Khởi chạy dự án
+
+### Use Node.js v22.14.0
+
+```bash
+# Cài đặt các dependencies
+npm install
+
+# Chạy development server
+npm run dev
+
+# Dự án sẽ chạy tại: http://localhost:3000
+```
+
+## Hình ảnh demo
+
+- Trang chủ:
+
+![Home page](public/images/picture1.png)
+
+- Đăng nhập:
+
+![Home page](public/images/picture2.png)
+
+- Đảng ký:
+
+![Home page](public/images/picture3.png)
+
+- Chi tiết album:
+
+![Home page](public/images/picture4.png)
+
+- Artist:
+
+![Home page](public/images/picture5.png)
+
+- Playlist:
+
+![Home page](public/images/picture6.png)
+
+- Profile:
+
+![Home page](public/images/picture7.png)
+
+- Change password:
+
+![Home page](public/images/picture8.png)
+
 # Back-end
 
 [MusicApp Server](https://github.com/nguyennhatvuong1783/MusicApp-Server).
-
-# MusicChat-Client
-
-## Use Node.js v22.14.0
-
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
-
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm i
-
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
 ## Learn More
 
