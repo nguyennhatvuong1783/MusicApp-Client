@@ -32,7 +32,7 @@ npm run dev
 
 - Đăng nhập:
 
-![Home page](https://raw.githubusercontent.com/nguyennhatvuong1783/MusicApp-Client/refs/heads/main/public/images/Picture2.png)
+<img src="[https://raw.githubusercontent.com/username/repo/branch/path/to/image.png](https://raw.githubusercontent.com/nguyennhatvuong1783/MusicApp-Client/refs/heads/main/public/images/Picture2.png)" width="100%">
 
 - Đảng ký:
 
