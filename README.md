@@ -28,35 +28,35 @@ npm run dev
 
 - Trang chủ:
 
-<img src="[https://raw.githubusercontent.com/username/repo/branch/path/to/image.png](https://raw.githubusercontent.com/nguyennhatvuong1783/MusicApp-Client/refs/heads/main/public/images/Picture1.png)" width="100%">
+<img src="https://raw.githubusercontent.com/nguyennhatvuong1783/MusicApp-Client/refs/heads/main/public/images/Picture1.png" alt="HomePage" width="100%">
 
 - Đăng nhập:
 
-<img src="[https://raw.githubusercontent.com/username/repo/branch/path/to/image.png](https://raw.githubusercontent.com/nguyennhatvuong1783/MusicApp-Client/refs/heads/main/public/images/Picture2.png)" width="100%">
+<img src="https://raw.githubusercontent.com/nguyennhatvuong1783/MusicApp-Client/refs/heads/main/public/images/Picture2.png" alt="LoginPage" width="100%">
 
 - Đảng ký:
 
-<img src="[https://raw.githubusercontent.com/username/repo/branch/path/to/image.png](https://raw.githubusercontent.com/nguyennhatvuong1783/MusicApp-Client/refs/heads/main/public/images/Picture3.png)" width="100%">
+<img src="https://raw.githubusercontent.com/nguyennhatvuong1783/MusicApp-Client/refs/heads/main/public/images/Picture3.png" alt="SignupPage" width="100%">
 
 - Chi tiết album:
 
-<img src="[https://raw.githubusercontent.com/username/repo/branch/path/to/image.png](https://raw.githubusercontent.com/nguyennhatvuong1783/MusicApp-Client/refs/heads/main/public/images/Picture4.png)" width="100%">
+<img src="https://raw.githubusercontent.com/nguyennhatvuong1783/MusicApp-Client/refs/heads/main/public/images/Picture4.png" alt="AlbumPage" width="100%">
 
 - Artist:
 
-<img src="[https://raw.githubusercontent.com/username/repo/branch/path/to/image.png](https://raw.githubusercontent.com/nguyennhatvuong1783/MusicApp-Client/refs/heads/main/public/images/Picture5.png)" width="100%">
+<img src="https://raw.githubusercontent.com/nguyennhatvuong1783/MusicApp-Client/refs/heads/main/public/images/Picture5.png" alt="ArtistPage" width="100%">
 
 - Playlist:
 
-<img src="[https://raw.githubusercontent.com/username/repo/branch/path/to/image.png](https://raw.githubusercontent.com/nguyennhatvuong1783/MusicApp-Client/refs/heads/main/public/images/Picture6.png)" width="100%">
+<img src="https://raw.githubusercontent.com/nguyennhatvuong1783/MusicApp-Client/refs/heads/main/public/images/Picture6.png" alt="PlaylistPage" width="100%">
 
 - Profile:
 
-<img src="[https://raw.githubusercontent.com/username/repo/branch/path/to/image.png](https://raw.githubusercontent.com/nguyennhatvuong1783/MusicApp-Client/refs/heads/main/public/images/Picture7.png)" width="100%">
+<img src="https://raw.githubusercontent.com/nguyennhatvuong1783/MusicApp-Client/refs/heads/main/public/images/Picture7.png" alt="ProfilePage" width="100%">
 
 - Change password:
 
-<img src="[https://raw.githubusercontent.com/username/repo/branch/path/to/image.png](https://raw.githubusercontent.com/nguyennhatvuong1783/MusicApp-Client/refs/heads/main/public/images/Picture8.png)" width="100%">
+<img src="https://raw.githubusercontent.com/nguyennhatvuong1783/MusicApp-Client/refs/heads/main/public/images/Picture8.png" alt="ChangePasswordPage" width="100%">
 
 # Back-end
 
