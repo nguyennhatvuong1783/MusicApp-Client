@@ -28,7 +28,7 @@ npm run dev
 
 - Trang chủ:
 
-![Home page](public/images/picture1.png)
+![Home page]([public/images/picture1.png](https://github.com/nguyennhatvuong1783/MusicApp-Client/blob/main/public/images/Picture1.png))
 
 - Đăng nhập:
 
