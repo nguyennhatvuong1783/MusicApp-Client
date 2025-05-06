@@ -28,35 +28,35 @@ npm run dev
 
 - Trang chủ:
 
-![Home page]([public/images/picture1.png](https://github.com/nguyennhatvuong1783/MusicApp-Client/blob/main/public/images/Picture1.png))
+![Home page](https://raw.githubusercontent.com/nguyennhatvuong1783/MusicApp-Client/refs/heads/main/public/images/Picture1.png)
 
 - Đăng nhập:
 
-![Home page](public/images/picture2.png)
+![Home page](https://raw.githubusercontent.com/nguyennhatvuong1783/MusicApp-Client/refs/heads/main/public/images/Picture2.png)
 
 - Đảng ký:
 
-![Home page](public/images/picture3.png)
+![Home page](https://raw.githubusercontent.com/nguyennhatvuong1783/MusicApp-Client/refs/heads/main/public/images/Picture3.png)
 
 - Chi tiết album:
 
-![Home page](public/images/picture4.png)
+![Home page](https://raw.githubusercontent.com/nguyennhatvuong1783/MusicApp-Client/refs/heads/main/public/images/Picture4.png)
 
 - Artist:
 
-![Home page](public/images/picture5.png)
+![Home page](https://raw.githubusercontent.com/nguyennhatvuong1783/MusicApp-Client/refs/heads/main/public/images/Picture5.png)
 
 - Playlist:
 
-![Home page](public/images/picture6.png)
+![Home page](https://raw.githubusercontent.com/nguyennhatvuong1783/MusicApp-Client/refs/heads/main/public/images/Picture6.png)
 
 - Profile:
 
-![Home page](public/images/picture7.png)
+![Home page](https://raw.githubusercontent.com/nguyennhatvuong1783/MusicApp-Client/refs/heads/main/public/images/Picture7.png)
 
 - Change password:
 
-![Home page](public/images/picture8.png)
+![Home page](https://raw.githubusercontent.com/nguyennhatvuong1783/MusicApp-Client/refs/heads/main/public/images/Picture8.png)
 
 # Back-end
 
