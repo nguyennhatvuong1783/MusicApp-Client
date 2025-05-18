@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import {
     ResizableHandle,
     ResizablePanel,
@@ -8,6 +9,8 @@ import LeftMenu from "../LeftMenu/LeftMenu";
 import { ScrollArea } from "../ui/scroll-area";
 import Footer from "../Footer/Footer";
 import { usePathname } from "next/navigation";
+import ChatButton from "../Chat/chat-button";
+import ChatBox from "../Chat/chat-box";
 
 interface MainContentProps {
     Content: React.ReactNode;
@@ -16,6 +19,12 @@ interface MainContentProps {
 const MainContent: React.FC<MainContentProps> = ({ Content }) => {
     const currentPath = usePathname();
     const isMobile = false;
+
+    const [isChatOpen, setIsChatOpen] = useState(false);
+
+    const toggleChat = () => {
+        setIsChatOpen(!isChatOpen);
+    };
 
     return (
         <ResizablePanelGroup
@@ -41,6 +50,11 @@ const MainContent: React.FC<MainContentProps> = ({ Content }) => {
                         className="h-[calc(100vh-70px)]"
                     >
                         {Content}
+                        {/* Floating Chat Button */}
+                        <ChatButton isOpen={isChatOpen} onClick={toggleChat} />
+
+                        {/* Chat Box */}
+                        {isChatOpen && <ChatBox />}
                         <Footer />
                     </ScrollArea>
                 </div>

@@ -1,4 +1,6 @@
 import { getCookie } from "./cookie";
+import { openai } from "@ai-sdk/openai";
+import { streamText } from "ai";
 
 const API_URL = "http://127.0.0.1:8000/api/";
 
@@ -51,3 +53,37 @@ export const fetcher = <T>(path: string): Promise<T> => {
         headers,
     }).then((res) => res.json() as Promise<T>);
 };
+
+// Allow streaming responses up to 30 seconds
+export const maxDuration = 30;
+
+export async function POST(req: Request) {
+    const { messages } = await req.json();
+
+    const result = streamText({
+        model: openai("gpt-4o"),
+        messages,
+    });
+
+    return result.toDataStreamResponse();
+}
+
+export async function suggestSongs(query: string): Promise<string> {
+    try {
+        const res = await fetch(API_URL + "ai/suggest", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ text: query }),
+        });
+
+        if (!res.ok) {
+            throw new Error("Failed to fetch song suggestions");
+        }
+
+        const data = await res.json();
+        return data.result || "";
+    } catch (error) {
+        console.error("Error in suggestSongs:", error);
+        return "Sorry, I could not fetch song suggestions at the moment.";
+    }
+}
